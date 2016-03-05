@@ -64,14 +64,27 @@
 
 <p>Available in Jenkins <a href="https://wiki.jenkins-ci.org/display/JENKINS/Violation+Comments+to+GitHub+Server+Plugin">here</a>.</p>
 
-<h3>
-<a id="plugin-development" class="anchor" href="#plugin-development" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Plugin development</h3>
+<h1>
+<a id="screenshots" class="anchor" href="#screenshots" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Screenshots</h1>
+
+<p>When installed, a post build action will be available.</p>
+
+<p><img src="https://github.com/tomasbjerre/violation-comments-to-github-jenkins-plugin/blob/master/sandbox/jenkins-postbuildmenu.png" alt="Post build action menu"></p>
+
+<p>The configuration looks like this.</p>
+
+<p><img src="https://github.com/tomasbjerre/violation-comments-to-github-jenkins-plugin/blob/master/sandbox/jenkins-postbuildaction.png" alt="Post build action"></p>
+
+<p>The pull request will be commented like this.</p>
+
+<p><img src="https://github.com/tomasbjerre/violation-comments-to-github-jenkins-plugin/blob/master/sandbox/findbugs-github-pr-file-comment.png" alt="Post build action"></p>
+
+<h1>
+<a id="plugin-development" class="anchor" href="#plugin-development" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Plugin development</h1>
 
 <p>More details on Jenkins plugin development is available <a href="https://wiki.jenkins-ci.org/display/JENKINS/Plugin+tutorial">here</a>.</p>
 
-<p>There is a <code>/build.sh</code> that will perform a full build and test the plugin.</p>
-
-<p>Some tests are implemented in maven project in <code>/plugin-test</code>. This is to avoid classpath issues with the plugin. These are web tests that will start Jenkins with the plugin on localhost and perform some configuration tests.</p>
+<p>There is a <code>/build.sh</code> that will perform a full build and test the plugin. You may have a look at sandbox/settings.xml on how to configure your Maven settings.</p>
 
 <p>A release is created like this. You need to clone from jenkinsci-repo, with https and have username/password in settings.xml.</p>
 
