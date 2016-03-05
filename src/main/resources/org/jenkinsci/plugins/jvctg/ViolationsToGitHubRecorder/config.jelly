@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core"
+  xmlns:d="jelly:define"
+  xmlns:f="/lib/form"
+  xmlns:l="/lib/layout"
+  xmlns:st="jelly:stapler"
+  xmlns:t="/lib/hudson">
+
+  <!-- descriptor is ViolationsToGitHubDescriptor //-->
+  <j:set var="config" value="${descriptor.newConfig}"/>
+  <j:if test="${instance != null}">
+    <!-- instance is ViolationsToGitHubRecorder //-->
+    <j:set var="config" value="${instance.config}"/>
+  </j:if>
+  
+  
+
+  <f:entry>
+    <table>
+      <tr>
+        <td>
+          GitHub Server
+        </td>
+      </tr>
+    </table>
+  </f:entry>
+
+  <f:entry title="User (Optional, you may also use OAuth2 token)">
+    <f:textbox name="username" value="${config.username}" />
+  </f:entry>
+
+  <f:entry title="Password (Optional, you may also use OAuth2 token)">
+    <f:password name="password" value="${config.password}" />
+  </f:entry>
+
+  <f:entry title="OAuth2 token (Optional, you may also use username and password)">
+    <f:password name="oAuth2Token" value="${config.oAuth2Token}" />
+  </f:entry>
+
+
+  <f:entry title="Base URL (Default is: https://api.github.com/)">
+    <f:textbox name="gitHubUrl" value="${config.gitHubUrl}" />
+  </f:entry>
+  
+  <f:entry title="Repository owner (Like 'a' if repo is: https://github.com/a/b)">
+    <f:textbox name="repositoryOwner" value="${config.repositoryOwner}" />
+  </f:entry>
+  
+  <f:entry title="Repository name (Like 'b' if repo is: https://github.com/a/b)">
+    <f:textbox name="repositoryName" value="${config.repositoryName}" />
+  </f:entry>
+
+  <f:entry title="Pull Request ID">
+    <f:textbox name="pullRequestId" value="${config.pullRequestId}" />
+  </f:entry>
+
+  <f:entry title="Create one comment per violation">
+    <f:checkbox name="createSingleFileComments" checked="${config.createSingleFileComments}"/>
+  </f:entry>
+
+  <f:entry title="Create one big comment with all violations">
+    <f:checkbox name="createCommentWithAllSingleFileComments" checked="${config.createCommentWithAllSingleFileComments}"/>
+  </f:entry>
+  
+
+  <f:entry>
+  <table class="xmlFilenamePatterns">
+    <tr>
+      <td align="left" colspan="2">
+        <b>XML filename pattern</b>
+        <ul>
+          <li>The pattern may be, for example, <i>.*/findbugs/.*\.xml$</i> to match xml-files, in a folder named findbugs, anywhere in workspace.</li>
+        </ul>
+      </td>
+    </tr>
+    <tr>
+      <th align="left" width="300">
+        Pattern
+      </th>
+    </tr>
+  </table>
+  </f:entry>
+
+  <j:forEach var="violationConfig" items="${config.violationConfigs}" indexVar="i">
+    <f:entry title="${violationConfig.reporter}">
+    <table cellspacing="5">
+      <tr>
+        <td width="300">
+          <f:textbox name="descriptor.config.violationConfigs[${i}].pattern" value="${violationConfig.pattern}" />
+        </td>
+      </tr>
+    </table>
+    </f:entry>
+  </j:forEach>
+
+</j:jelly>
