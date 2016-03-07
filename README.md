@@ -34,15 +34,15 @@ You will need to the **pull request id** for the pull request that was built. Yo
 
 When installed, a post build action will be available.
 
-![Post build action menu](https://github.com/tomasbjerre/violation-comments-to-github-jenkins-plugin/blob/master/sandbox/jenkins-postbuildmenu.png)
+![Post build action menu](https://github.com/jenkinsci/violation-comments-to-github-jenkins-plugin/blob/master/sandbox/jenkins-postbuildmenu.png)
 
 The configuration looks like this.
 
-![Post build action](https://github.com/tomasbjerre/violation-comments-to-github-jenkins-plugin/blob/master/sandbox/jenkins-postbuildaction.png)
+![Post build action](https://github.com/jenkinsci/violation-comments-to-github-jenkins-plugin/blob/master/sandbox/jenkins-postbuildaction.png)
 
 The pull request will be commented like this.
 
-![Post build action](https://github.com/tomasbjerre/violation-comments-to-github-jenkins-plugin/blob/master/sandbox/findbugs-github-pr-file-comment.png)
+![Post build action](https://github.com/jenkinsci/violation-comments-to-github-jenkins-plugin/blob/master/sandbox/findbugs-github-pr-file-comment.png)
 
 
 # Plugin development

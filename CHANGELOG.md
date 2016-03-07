@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## violation-comments-to-github-1.2
 ### No issue
 
 **Initial**
