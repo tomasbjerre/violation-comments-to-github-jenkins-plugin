@@ -6,7 +6,7 @@
 **Optionally only comment the changed part in diffs**
 
 
-[c19f74eb68cec73](https://github.com/tomasbjerre/violation-comments-to-github-jenkins-plugin/commit/c19f74eb68cec73) Tomas Bjerre *2016-03-08 18:04:30*
+[f600a0c78bfe0ff](https://github.com/tomasbjerre/violation-comments-to-github-jenkins-plugin/commit/f600a0c78bfe0ff) Tomas Bjerre *2016-03-08 18:05:32*
 
 **Correcting image links in README.md**
 
