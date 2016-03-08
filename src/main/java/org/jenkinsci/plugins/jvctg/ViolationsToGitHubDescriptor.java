@@ -1,6 +1,7 @@
 package org.jenkinsci.plugins.jvctg;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
+import static org.jenkinsci.plugins.jvctg.config.ViolationsToGitHubConfigHelper.FIELD_COMMENTONLYCHANGEDCONTENT;
 import static org.jenkinsci.plugins.jvctg.config.ViolationsToGitHubConfigHelper.FIELD_CREATECOMMENTWITHALLSINGLEFILECOMMENTS;
 import static org.jenkinsci.plugins.jvctg.config.ViolationsToGitHubConfigHelper.FIELD_CREATESINGLEFILECOMMENTS;
 import static org.jenkinsci.plugins.jvctg.config.ViolationsToGitHubConfigHelper.FIELD_GITHUBURL;
@@ -62,6 +63,7 @@ public final class ViolationsToGitHubDescriptor extends BuildStepDescriptor<Publ
   config.setCreateCommentWithAllSingleFileComments(formData.getString(FIELD_CREATECOMMENTWITHALLSINGLEFILECOMMENTS)
     .equalsIgnoreCase("true"));
   config.setCreateSingleFileComments(formData.getString(FIELD_CREATESINGLEFILECOMMENTS).equalsIgnoreCase("true"));
+  config.setCommentOnlyChangedContent(formData.getString(FIELD_COMMENTONLYCHANGEDCONTENT).equalsIgnoreCase("true"));
   int i = 0;
   for (String pattern : (List<String>) formData.get(FIELD_PATTERN)) {
    config.getViolationConfigs().get(i++).setPattern(pattern);

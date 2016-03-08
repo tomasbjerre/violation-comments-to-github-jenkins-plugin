@@ -7,6 +7,7 @@ import static com.google.common.collect.Lists.newArrayList;
 import static java.util.logging.Level.INFO;
 import static java.util.logging.Level.SEVERE;
 import static org.jenkinsci.plugins.jvctg.JvctsLogger.doLog;
+import static org.jenkinsci.plugins.jvctg.config.ViolationsToGitHubConfigHelper.FIELD_COMMENTONLYCHANGEDCONTENT;
 import static org.jenkinsci.plugins.jvctg.config.ViolationsToGitHubConfigHelper.FIELD_CREATECOMMENTWITHALLSINGLEFILECOMMENTS;
 import static org.jenkinsci.plugins.jvctg.config.ViolationsToGitHubConfigHelper.FIELD_CREATESINGLEFILECOMMENTS;
 import static org.jenkinsci.plugins.jvctg.config.ViolationsToGitHubConfigHelper.FIELD_GITHUBURL;
@@ -115,6 +116,7 @@ public class JvctsPerformer {
      .withViolations(allParsedViolations)//
      .withCreateCommentWithAllSingleFileComments(config.getCreateCommentWithAllSingleFileComments())//
      .withCreateSingleFileComments(config.getCreateSingleFileComments())//
+     .withCommentOnlyChangedContent(config.getCommentOnlyChangedContent())//
      .toPullRequest();
   } catch (Exception e) {
    doLog(SEVERE, "", e);
@@ -151,13 +153,14 @@ public class JvctsPerformer {
   listener.getLogger().println(FIELD_REPOSITORYNAME + ": " + config.getRepositoryName());
   listener.getLogger().println(FIELD_PULLREQUESTID + ": " + config.getPullRequestId());
 
-  listener.getLogger().println(FIELD_PASSWORD + ": " + config.getPassword().isEmpty());
   listener.getLogger().println(FIELD_USERNAME + ": " + config.getUsername().isEmpty());
+  listener.getLogger().println(FIELD_PASSWORD + ": " + config.getPassword().isEmpty());
   listener.getLogger().println(FIELD_OAUTH2TOKEN + ": " + config.getOAuth2Token().isEmpty());
 
   listener.getLogger().println(FIELD_CREATESINGLEFILECOMMENTS + ": " + config.getCreateSingleFileComments());
   listener.getLogger().println(
     FIELD_CREATECOMMENTWITHALLSINGLEFILECOMMENTS + ": " + config.getCreateCommentWithAllSingleFileComments());
+  listener.getLogger().println(FIELD_COMMENTONLYCHANGEDCONTENT + ": " + config.getCommentOnlyChangedContent());
 
   for (ViolationConfig violationConfig : config.getViolationConfigs()) {
    doLog(INFO, violationConfig.getReporter() + " with pattern " + violationConfig.getPattern());

@@ -18,6 +18,7 @@ public class ViolationsToGitHubConfigHelper {
  public static final String FIELD_OAUTH2TOKEN = "oAuth2Token";
  public static final String FIELD_PULLREQUESTID = "pullRequestId";
  public static final String FIELD_GITHUBURL = "gitHubUrl";
+ public static final String FIELD_COMMENTONLYCHANGEDCONTENT = "commentOnlyChangedContent";
 
  public static ViolationsToGitHubConfig createNewConfig() {
   ViolationsToGitHubConfig config = new ViolationsToGitHubConfig();

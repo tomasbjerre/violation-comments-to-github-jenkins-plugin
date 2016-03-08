@@ -1,0 +1,5 @@
+rm -rf violations-test
+git clone https://github.com/tomasbjerre/violations-test.git --branch feature/addingcrap
+cd violations-test
+./build.sh
+

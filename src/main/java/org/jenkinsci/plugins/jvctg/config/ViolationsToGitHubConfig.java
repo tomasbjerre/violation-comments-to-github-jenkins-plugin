@@ -15,6 +15,7 @@ public class ViolationsToGitHubConfig {
  private String oAuth2Token;
  private String pullRequestId;
  private String gitHubUrl;
+ private boolean commentOnlyChangedContent;
 
  public ViolationsToGitHubConfig() {
 
@@ -98,5 +99,13 @@ public class ViolationsToGitHubConfig {
 
  public void setGitHubUrl(String gitHubUrl) {
   this.gitHubUrl = gitHubUrl;
+ }
+
+ public boolean getCommentOnlyChangedContent() {
+  return commentOnlyChangedContent;
+ }
+
+ public void setCommentOnlyChangedContent(boolean commentOnlyChangedContent) {
+  this.commentOnlyChangedContent = commentOnlyChangedContent;
  }
 }
