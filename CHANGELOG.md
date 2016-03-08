@@ -3,6 +3,15 @@
 ## Unreleased
 ### No issue
 
+**Updating changelog**
+
+
+[d90dbb2a95e0ad6](https://github.com/tomasbjerre/violation-comments-to-github-jenkins-plugin/commit/d90dbb2a95e0ad6) Tomas Bjerre *2016-03-08 18:07:31*
+
+
+## violation-comments-to-github-1.3
+### No issue
+
 **Optionally only comment the changed part in diffs**
 
 

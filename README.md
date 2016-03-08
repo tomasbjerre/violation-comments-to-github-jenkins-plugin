@@ -1,7 +1,5 @@
 # Violation Comments to GitHub Jenkins Plugin
 
-Travis CI: [![Build Status](https://travis-ci.org/tomasbjerre/violation-comments-to-github-jenkins-plugin.svg?branch=master)](https://travis-ci.org/tomasbjerre/violation-comments-to-github-jenkins-plugin)
-
 CloudBees: [![Build Status](https://jenkins.ci.cloudbees.com/job/plugins/job/violation-comments-to-github-plugin/badge/icon)](https://jenkins.ci.cloudbees.com/job/plugins/job/violation-comments-to-github-plugin/)
 
 This is a Jenkins plugin for [Violation Comments to GitHub Lib](https://github.com/tomasbjerre/violation-comments-to-github-lib). This plugin will find report files from static code analysis and comment GitHub pull requests with the content.
@@ -42,7 +40,7 @@ The configuration looks like this.
 
 The pull request will be commented like this.
 
-![Post build action](https://github.com/jenkinsci/violation-comments-to-github-jenkins-plugin/blob/master/sandbox/findbugs-github-pr-file-comment.png)
+![Pull request comment](https://github.com/jenkinsci/violation-comments-to-github-jenkins-plugin/blob/master/sandbox/github-pr-diff-comment.png)
 
 
 # Plugin development
