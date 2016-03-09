@@ -1,5 +1,7 @@
 rm -rf violations-test
-git clone https://github.com/tomasbjerre/violations-test.git --branch feature/addingcrap
+git clone https://github.com/tomasbjerre/violations-test.git
 cd violations-test
+git branch -a
+git merge remotes/origin/gradle-plugin-example
+npm install
 ./build.sh
-
