@@ -3,6 +3,20 @@
 ## Unreleased
 ### No issue
 
+**Updating changelog**
+
+
+[a1643a22a4a7979](https://github.com/tomasbjerre/violation-comments-to-github-jenkins-plugin/commit/a1643a22a4a7979) Tomas Bjerre *2016-03-09 17:51:22*
+
+
+## violation-comments-to-github-1.4
+### No issue
+
+**Commenting on correct commit in PR**
+
+
+[38ab30d4750b5a9](https://github.com/tomasbjerre/violation-comments-to-github-jenkins-plugin/commit/38ab30d4750b5a9) Tomas Bjerre *2016-03-09 17:45:25*
+
 **Update README.md**
 
 
