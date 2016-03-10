@@ -21,8 +21,11 @@ import static se.bjurr.violations.comments.github.lib.ViolationCommentsToGitHubA
 import static se.bjurr.violations.lib.ViolationsReporterApi.violationsReporterApi;
 import static se.bjurr.violations.lib.parsers.FindbugsParser.setFindbugsMessagesXml;
 import hudson.EnvVars;
+import hudson.FilePath;
+import hudson.FilePath.FileCallable;
 import hudson.model.BuildListener;
 import hudson.model.AbstractBuild;
+import hudson.remoting.VirtualChannel;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,6 +35,7 @@ import java.util.List;
 
 import org.jenkinsci.plugins.jvctg.config.ViolationConfig;
 import org.jenkinsci.plugins.jvctg.config.ViolationsToGitHubConfig;
+import org.jenkinsci.remoting.RoleChecker;
 
 import se.bjurr.violations.lib.model.Violation;
 
@@ -40,22 +44,38 @@ import com.google.common.io.CharStreams;
 
 public class JvctsPerformer {
 
- public static void jvctsPerform(ViolationsToGitHubConfig config, AbstractBuild<?, ?> build, BuildListener listener) {
+ public static void jvctsPerform(final ViolationsToGitHubConfig configUnexpanded, AbstractBuild<?, ?> build,
+   final BuildListener listener) {
   try {
    EnvVars env = build.getEnvironment(listener);
-   config = expand(config, env);
+   final ViolationsToGitHubConfig configExpanded = expand(configUnexpanded, env);
    listener.getLogger().println("---");
    listener.getLogger().println("--- Jenkins Violation Comments to GitHub ---");
    listener.getLogger().println("---");
-   logConfiguration(config, build, listener);
+   logConfiguration(configExpanded, build, listener);
 
    listener.getLogger().println("Running Jenkins Violation Comments To GitHub");
-   listener.getLogger().println("Will comment " + config.getPullRequestId());
+   listener.getLogger().println("Will comment " + configExpanded.getPullRequestId());
 
    File workspace = new File(build.getExecutor().getCurrentWorkspace().toURI());
-   setupFindBugsMessages();
-   doLog(INFO, "Workspace: " + workspace.getAbsolutePath());
-   doPerform(config, workspace, listener);
+   FilePath fp = new FilePath(workspace);
+   fp.act(new FileCallable<Void>() {
+
+    private static final long serialVersionUID = 6166111757469534436L;
+
+    @Override
+    public Void invoke(File workspace, VirtualChannel channel) throws IOException, InterruptedException {
+     setupFindBugsMessages();
+     doLog(INFO, "Workspace: " + workspace.getAbsolutePath());
+     doPerform(configExpanded, workspace, listener);
+     return null;
+    }
+
+    @Override
+    public void checkRoles(RoleChecker checker) throws SecurityException {
+
+    }
+   });
   } catch (Exception e) {
    doLog(SEVERE, "", e);
    return;

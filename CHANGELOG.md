@@ -3,11 +3,15 @@
 ## Unreleased
 ### No issue
 
+**retrigger build**
+
+
+[b514c5e787cb163](https://github.com/tomasbjerre/violation-comments-to-github-jenkins-plugin/commit/b514c5e787cb163) Tomas Bjerre *2016-03-10 06:43:17*
+
 **Updating changelog**
 
 
-
-[a1643a22a4a7979](https://github.com/tomasbjerre/violation-comments-to-github-jenkins-plugin/commit/a1643a22a4a7979) Tomas Bjerre *2016-03-09 17:51:22*
+[1a14f4f2f0a134b](https://github.com/tomasbjerre/violation-comments-to-github-jenkins-plugin/commit/1a14f4f2f0a134b) Tomas Bjerre *2016-03-09 17:54:15*
 
 
 ## violation-comments-to-github-1.4
