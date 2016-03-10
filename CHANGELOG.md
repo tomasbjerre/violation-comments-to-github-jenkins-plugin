@@ -6,6 +6,7 @@
 **Updating changelog**
 
 
+
 [a1643a22a4a7979](https://github.com/tomasbjerre/violation-comments-to-github-jenkins-plugin/commit/a1643a22a4a7979) Tomas Bjerre *2016-03-09 17:51:22*
 
 
