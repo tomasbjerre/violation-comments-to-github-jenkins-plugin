@@ -31,6 +31,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.util.List;
 
 import org.jenkinsci.plugins.jvctg.config.ViolationConfig;
@@ -57,8 +58,14 @@ public class JvctsPerformer {
    listener.getLogger().println("Running Jenkins Violation Comments To GitHub");
    listener.getLogger().println("Will comment " + configExpanded.getPullRequestId());
 
-   File workspace = new File(build.getExecutor().getCurrentWorkspace().toURI());
-   FilePath fp = new FilePath(workspace);
+   FilePath workspace = build.getExecutor().getCurrentWorkspace();
+   URI workspacePath = build.getExecutor().getCurrentWorkspace().toURI();
+   FilePath fp;
+   if(workspace.isRemote()) {
+    fp = new FilePath(workspace.getChannel(), workspacePath.getPath());
+   } else {
+    fp = new FilePath(new File(workspacePath));
+   }
    fp.act(new FileCallable<Void>() {
 
     private static final long serialVersionUID = 6166111757469534436L;
