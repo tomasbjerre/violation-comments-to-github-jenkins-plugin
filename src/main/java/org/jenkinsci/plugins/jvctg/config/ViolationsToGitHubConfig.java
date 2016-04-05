@@ -2,9 +2,12 @@ package org.jenkinsci.plugins.jvctg.config;
 
 import static com.google.common.collect.Lists.newArrayList;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class ViolationsToGitHubConfig {
+public class ViolationsToGitHubConfig implements Serializable {
+ private static final long serialVersionUID = 4851568645021422528L;
+
  private List<ViolationConfig> violationConfigs = newArrayList();
  private boolean createSingleFileComments;
  private boolean createCommentWithAllSingleFileComments;
