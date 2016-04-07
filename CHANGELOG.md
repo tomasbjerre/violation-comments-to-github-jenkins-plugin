@@ -3,6 +3,34 @@
 ## Unreleased
 ### No issue
 
+**Using comment only changed part of content correctly**
+
+ * Was not expanding it. 
+ * Also printing usage of username/password or oauth correcly in log. 
+
+[494792286c5cdc1](https://github.com/tomasbjerre/violation-comments-to-github-jenkins-plugin/commit/494792286c5cdc1) Tomas Bjerre *2016-04-07 04:46:30*
+
+
+## violation-comments-to-github-1.6
+### No issue
+
+**Ability to execute plugin on remote slaves**
+
+ * Accessing files on remote slaves requires one level of indirection by 
+ * using workspace.channel(). Also, all the configurations needs to be 
+ * serializable for this to work. 
+
+[c66f26c4b7f0e3c](https://github.com/tomasbjerre/violation-comments-to-github-jenkins-plugin/commit/c66f26c4b7f0e3c) Arvind Jayaprakash *2016-04-05 11:30:24*
+
+
+## violation-comments-to-github-1.5
+### No issue
+
+**Trying to support slaves setup**
+
+
+[b26fedebb903559](https://github.com/tomasbjerre/violation-comments-to-github-jenkins-plugin/commit/b26fedebb903559) Tomas Bjerre *2016-03-10 18:09:56*
+
 **retrigger build**
 
 

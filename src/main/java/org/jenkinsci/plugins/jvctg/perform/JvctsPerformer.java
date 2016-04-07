@@ -61,7 +61,7 @@ public class JvctsPerformer {
    FilePath workspace = build.getExecutor().getCurrentWorkspace();
    URI workspacePath = build.getExecutor().getCurrentWorkspace().toURI();
    FilePath fp;
-   if(workspace.isRemote()) {
+   if (workspace.isRemote()) {
     fp = new FilePath(workspace.getChannel(), workspacePath.getPath());
    } else {
     fp = new FilePath(new File(workspacePath));
@@ -165,6 +165,7 @@ public class JvctsPerformer {
   expanded.setRepositoryOwner(environment.expand(config.getRepositoryOwner()));
   expanded.setCreateCommentWithAllSingleFileComments(config.getCreateCommentWithAllSingleFileComments());
   expanded.setCreateSingleFileComments(config.getCreateSingleFileComments());
+  expanded.setCommentOnlyChangedContent(config.getCommentOnlyChangedContent());
   for (ViolationConfig violationConfig : config.getViolationConfigs()) {
    ViolationConfig p = new ViolationConfig();
    p.setPattern(environment.expand(violationConfig.getPattern()));
@@ -180,9 +181,9 @@ public class JvctsPerformer {
   listener.getLogger().println(FIELD_REPOSITORYNAME + ": " + config.getRepositoryName());
   listener.getLogger().println(FIELD_PULLREQUESTID + ": " + config.getPullRequestId());
 
-  listener.getLogger().println(FIELD_USERNAME + ": " + config.getUsername().isEmpty());
-  listener.getLogger().println(FIELD_PASSWORD + ": " + config.getPassword().isEmpty());
-  listener.getLogger().println(FIELD_OAUTH2TOKEN + ": " + config.getOAuth2Token().isEmpty());
+  listener.getLogger().println(FIELD_USERNAME + ": " + !config.getUsername().isEmpty());
+  listener.getLogger().println(FIELD_PASSWORD + ": " + !config.getPassword().isEmpty());
+  listener.getLogger().println(FIELD_OAUTH2TOKEN + ": " + !config.getOAuth2Token().isEmpty());
 
   listener.getLogger().println(FIELD_CREATESINGLEFILECOMMENTS + ": " + config.getCreateSingleFileComments());
   listener.getLogger().println(
