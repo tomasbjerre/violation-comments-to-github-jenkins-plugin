@@ -146,7 +146,11 @@ public class ViolationsToGitHubConfig implements Serializable {
 
  public void applyDefaults(ViolationsToGitHubConfiguration defaults) {
   if( isNullOrEmpty(gitHubUrl) ) {
-   gitHubUrl = defaults.getGitHubUrl();
+   String rhs = defaults.getGitHubUrl();
+   if( isNullOrEmpty(rhs) ) {
+    rhs = "https://api.github.com/";
+   }
+   gitHubUrl = rhs;
   }
   if( isNullOrEmpty(username) ) {
    username = defaults.getUsername();
