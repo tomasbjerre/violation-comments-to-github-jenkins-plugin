@@ -1,5 +1,8 @@
 package org.jenkinsci.plugins.jvctg.config;
 
+import org.jenkinsci.plugins.jvctg.ViolationsToGitHubConfiguration;
+
+import static com.google.common.base.Strings.isNullOrEmpty;
 import static com.google.common.collect.Lists.newArrayList;
 
 import java.io.Serializable;
@@ -22,6 +25,35 @@ public class ViolationsToGitHubConfig implements Serializable {
 
  public ViolationsToGitHubConfig() {
 
+ }
+
+ public ViolationsToGitHubConfig(ViolationsToGitHubConfig rhs) {
+  this.violationConfigs = rhs.violationConfigs;
+  this.createSingleFileComments = rhs.createSingleFileComments;
+  this.createCommentWithAllSingleFileComments = rhs.createCommentWithAllSingleFileComments;
+  this.repositoryName = rhs.repositoryName;
+  this.repositoryOwner = rhs.repositoryOwner;
+  this.password = rhs.password;
+  this.username = rhs.username;
+  this.oAuth2Token = rhs.oAuth2Token;
+  this.pullRequestId = rhs.pullRequestId;
+  this.gitHubUrl = rhs.gitHubUrl;
+  this.commentOnlyChangedContent = rhs.commentOnlyChangedContent;
+ }
+
+
+ public ViolationsToGitHubConfig( boolean createSingleFileComments, boolean createCommentWithAllSingleFileComments, String repositoryName, String repositoryOwner, String password, String username, String oAuth2Token, String pullRequestId, String gitHubUrl, boolean commentOnlyChangedContent, List<ViolationConfig> violationConfigs) {
+  this.violationConfigs = violationConfigs;
+  this.createSingleFileComments = createSingleFileComments;
+  this.createCommentWithAllSingleFileComments = createCommentWithAllSingleFileComments;
+  this.repositoryName = repositoryName;
+  this.repositoryOwner = repositoryOwner;
+  this.password = password;
+  this.username = username;
+  this.oAuth2Token = oAuth2Token;
+  this.pullRequestId = pullRequestId;
+  this.gitHubUrl = gitHubUrl;
+  this.commentOnlyChangedContent = commentOnlyChangedContent;
  }
 
  public String getOAuth2Token() {
@@ -110,5 +142,27 @@ public class ViolationsToGitHubConfig implements Serializable {
 
  public void setCommentOnlyChangedContent(boolean commentOnlyChangedContent) {
   this.commentOnlyChangedContent = commentOnlyChangedContent;
+ }
+
+ public void applyDefaults(ViolationsToGitHubConfiguration defaults) {
+  if( isNullOrEmpty(gitHubUrl) ) {
+   String rhs = defaults.getGitHubUrl();
+   if( isNullOrEmpty(rhs) ) {
+    rhs = "https://api.github.com/";
+   }
+   gitHubUrl = rhs;
+  }
+  if( isNullOrEmpty(username) ) {
+   username = defaults.getUsername();
+  }
+  if( isNullOrEmpty(password) ) {
+   password = defaults.getPassword();
+  }
+  if( isNullOrEmpty(repositoryOwner) ) {
+   repositoryOwner = defaults.getRepositoryOwner();
+  }
+  if( isNullOrEmpty(oAuth2Token) ) {
+   oAuth2Token = defaults.getoAuth2Token() ;
+  }
  }
 }
