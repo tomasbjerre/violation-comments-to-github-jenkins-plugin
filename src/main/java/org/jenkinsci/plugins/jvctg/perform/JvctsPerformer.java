@@ -25,6 +25,8 @@ import hudson.FilePath;
 import hudson.FilePath.FileCallable;
 import hudson.model.BuildListener;
 import hudson.model.AbstractBuild;
+import hudson.model.Run;
+import hudson.model.TaskListener;
 import hudson.remoting.VirtualChannel;
 
 import java.io.File;
@@ -45,8 +47,8 @@ import com.google.common.io.CharStreams;
 
 public class JvctsPerformer {
 
- public static void jvctsPerform(final ViolationsToGitHubConfig configUnexpanded, AbstractBuild<?, ?> build,
-   final BuildListener listener) {
+ public static void jvctsPerform(final ViolationsToGitHubConfig configUnexpanded, Run<?, ?> build,
+                                 final TaskListener listener) {
   try {
    EnvVars env = build.getEnvironment(listener);
    final ViolationsToGitHubConfig configExpanded = expand(configUnexpanded, env);
@@ -100,7 +102,7 @@ public class JvctsPerformer {
  }
 
  @VisibleForTesting
- public static void doPerform(ViolationsToGitHubConfig config, File workspace, BuildListener listener)
+ public static void doPerform(ViolationsToGitHubConfig config, File workspace, TaskListener listener)
    throws MalformedURLException {
   if (isNullOrEmpty(config.getPullRequestId())) {
    doLog(INFO, "No pull request id defined, will not send violation comments to GitHub.");
@@ -175,7 +177,7 @@ public class JvctsPerformer {
   return expanded;
  }
 
- private static void logConfiguration(ViolationsToGitHubConfig config, AbstractBuild<?, ?> build, BuildListener listener) {
+ private static void logConfiguration(ViolationsToGitHubConfig config, Run<?, ?> build, TaskListener listener) {
   listener.getLogger().println(FIELD_GITHUBURL + ": " + config.getGitHubUrl());
   listener.getLogger().println(FIELD_REPOSITORYOWNER + ": " + config.getRepositoryOwner());
   listener.getLogger().println(FIELD_REPOSITORYNAME + ": " + config.getRepositoryName());
