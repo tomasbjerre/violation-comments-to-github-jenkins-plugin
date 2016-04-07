@@ -1,5 +1,6 @@
 package org.jenkinsci.plugins.jvctg;
 
+import static com.google.common.base.Strings.isNullOrEmpty;
 import static hudson.tasks.BuildStepMonitor.NONE;
 import static java.lang.Boolean.TRUE;
 import static org.jenkinsci.plugins.jvctg.perform.JvctsPerformer.jvctsPerform;
@@ -30,7 +31,13 @@ public class ViolationsToGitHubRecorder extends Recorder implements SimpleBuildS
  @Override
  public void perform(@Nonnull Run<?, ?> build, @Nonnull FilePath filePath, @Nonnull Launcher launcher, @Nonnull TaskListener listener)
    throws InterruptedException, IOException {
-  jvctsPerform(config, build, listener);
+
+  ViolationsToGitHubConfig combinedConfig = new ViolationsToGitHubConfig(config);
+  ViolationsToGitHubConfiguration defaults = ViolationsToGitHubConfiguration.get();
+
+  combinedConfig.applyDefaults(defaults);
+
+  jvctsPerform(combinedConfig, build, listener);
  }
 
  @Override
@@ -53,4 +60,5 @@ public class ViolationsToGitHubRecorder extends Recorder implements SimpleBuildS
  public ViolationsToGitHubConfig getConfig() {
   return config;
  }
+
 }

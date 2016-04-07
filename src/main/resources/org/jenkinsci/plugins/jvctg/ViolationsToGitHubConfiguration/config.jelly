@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core"
+         xmlns:d="jelly:define"
+         xmlns:f="/lib/form"
+         xmlns:l="/lib/layout"
+         xmlns:st="jelly:stapler"
+         xmlns:t="/lib/hudson">
+
+    <f:section title="GitHub Violations Server Defaults">
+
+        <f:entry title="User (Optional, you may also use OAuth2 token)">
+            <f:textbox name="username" value="${username}" />
+        </f:entry>
+
+        <f:entry title="Password (Optional, you may also use OAuth2 token)">
+            <f:password name="password" value="${password}" />
+        </f:entry>
+
+        <f:entry title="OAuth2 token (Optional, you may also use username and password)">
+            <f:password name="oAuth2Token" value="${oAuth2Token}" />
+        </f:entry>
+
+        <f:entry title="Base URL (Default is: https://api.github.com/)">
+            <f:textbox name="gitHubUrl" value="${gitHubUrl}" />
+        </f:entry>
+
+        <f:entry title="Repository owner (Like 'a' if repo is: https://github.com/a/b)">
+            <f:textbox name="repositoryOwner" value="${repositoryOwner}" />
+        </f:entry>
+
+    </f:section>
+</j:jelly>
