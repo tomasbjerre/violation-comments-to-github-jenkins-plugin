@@ -23,17 +23,14 @@ import static se.bjurr.violations.lib.parsers.FindbugsParser.setFindbugsMessages
 import hudson.EnvVars;
 import hudson.FilePath;
 import hudson.FilePath.FileCallable;
-import hudson.model.BuildListener;
-import hudson.model.AbstractBuild;
-import hudson.model.Run;
 import hudson.model.TaskListener;
+import hudson.model.Run;
 import hudson.remoting.VirtualChannel;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.util.List;
 
 import org.jenkinsci.plugins.jvctg.config.ViolationConfig;
@@ -48,7 +45,7 @@ import com.google.common.io.CharStreams;
 public class JvctsPerformer {
 
  public static void jvctsPerform(final ViolationsToGitHubConfig configUnexpanded, FilePath fp, Run<?, ?> build,
-                                 final TaskListener listener) {
+   final TaskListener listener) {
   try {
    EnvVars env = build.getEnvironment(listener);
    final ViolationsToGitHubConfig configExpanded = expand(configUnexpanded, env);
@@ -59,7 +56,6 @@ public class JvctsPerformer {
 
    listener.getLogger().println("Running Jenkins Violation Comments To GitHub");
    listener.getLogger().println("Will comment " + configExpanded.getPullRequestId());
-
 
    fp.act(new FileCallable<Void>() {
 

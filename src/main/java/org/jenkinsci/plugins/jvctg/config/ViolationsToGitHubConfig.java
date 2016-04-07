@@ -1,12 +1,12 @@
 package org.jenkinsci.plugins.jvctg.config;
 
-import org.jenkinsci.plugins.jvctg.ViolationsToGitHubConfiguration;
-
 import static com.google.common.base.Strings.isNullOrEmpty;
 import static com.google.common.collect.Lists.newArrayList;
 
 import java.io.Serializable;
 import java.util.List;
+
+import org.jenkinsci.plugins.jvctg.ViolationsToGitHubConfiguration;
 
 public class ViolationsToGitHubConfig implements Serializable {
  private static final long serialVersionUID = 4851568645021422528L;
@@ -41,8 +41,9 @@ public class ViolationsToGitHubConfig implements Serializable {
   this.commentOnlyChangedContent = rhs.commentOnlyChangedContent;
  }
 
-
- public ViolationsToGitHubConfig( boolean createSingleFileComments, boolean createCommentWithAllSingleFileComments, String repositoryName, String repositoryOwner, String password, String username, String oAuth2Token, String pullRequestId, String gitHubUrl, boolean commentOnlyChangedContent, List<ViolationConfig> violationConfigs) {
+ public ViolationsToGitHubConfig(boolean createSingleFileComments, boolean createCommentWithAllSingleFileComments,
+   String repositoryName, String repositoryOwner, String password, String username, String oAuth2Token,
+   String pullRequestId, String gitHubUrl, boolean commentOnlyChangedContent, List<ViolationConfig> violationConfigs) {
   this.violationConfigs = violationConfigs;
   this.createSingleFileComments = createSingleFileComments;
   this.createCommentWithAllSingleFileComments = createCommentWithAllSingleFileComments;
@@ -145,24 +146,24 @@ public class ViolationsToGitHubConfig implements Serializable {
  }
 
  public void applyDefaults(ViolationsToGitHubConfiguration defaults) {
-  if( isNullOrEmpty(gitHubUrl) ) {
+  if (isNullOrEmpty(gitHubUrl)) {
    String rhs = defaults.getGitHubUrl();
-   if( isNullOrEmpty(rhs) ) {
+   if (isNullOrEmpty(rhs)) {
     rhs = "https://api.github.com/";
    }
    gitHubUrl = rhs;
   }
-  if( isNullOrEmpty(username) ) {
+  if (isNullOrEmpty(username)) {
    username = defaults.getUsername();
   }
-  if( isNullOrEmpty(password) ) {
+  if (isNullOrEmpty(password)) {
    password = defaults.getPassword();
   }
-  if( isNullOrEmpty(repositoryOwner) ) {
+  if (isNullOrEmpty(repositoryOwner)) {
    repositoryOwner = defaults.getRepositoryOwner();
   }
-  if( isNullOrEmpty(oAuth2Token) ) {
-   oAuth2Token = defaults.getoAuth2Token() ;
+  if (isNullOrEmpty(oAuth2Token)) {
+   oAuth2Token = defaults.getoAuth2Token();
   }
  }
 }

@@ -1,8 +1,8 @@
 package org.jenkinsci.plugins.jvctg.config;
 
-import se.bjurr.violations.lib.reports.Reporter;
-
 import java.io.Serializable;
+
+import se.bjurr.violations.lib.reports.Reporter;
 
 public class ViolationConfig implements Serializable {
  private static final long serialVersionUID = 9009372864417543781L;
