@@ -17,9 +17,12 @@ import hudson.tasks.Publisher;
 import hudson.tasks.Recorder;
 
 import java.io.IOException;
+import java.util.List;
 
 import jenkins.tasks.SimpleBuildStep;
+import org.jenkinsci.plugins.jvctg.config.ViolationConfig;
 import org.jenkinsci.plugins.jvctg.config.ViolationsToGitHubConfig;
+import org.kohsuke.stapler.DataBoundConstructor;
 
 import javax.annotation.Nonnull;
 
@@ -37,7 +40,7 @@ public class ViolationsToGitHubRecorder extends Recorder implements SimpleBuildS
 
   combinedConfig.applyDefaults(defaults);
 
-  jvctsPerform(combinedConfig, build, listener);
+  jvctsPerform(combinedConfig, filePath, build, listener);
  }
 
  @Override
@@ -45,8 +48,28 @@ public class ViolationsToGitHubRecorder extends Recorder implements SimpleBuildS
   return DESCRIPTOR;
  }
 
+
  public ViolationsToGitHubRecorder() {
  }
+
+ @DataBoundConstructor
+  public ViolationsToGitHubRecorder( boolean createSingleFileComments, boolean createCommentWithAllSingleFileComments, String repositoryName, String repositoryOwner, String password, String username, String oAuth2Token, String pullRequestId, String gitHubUrl, boolean commentOnlyChangedContent, List<
+    ViolationConfig > violationConfigs) {
+
+   config = new ViolationsToGitHubConfig(
+    createSingleFileComments ,
+    createCommentWithAllSingleFileComments ,
+    repositoryName ,
+    repositoryOwner ,
+    password ,
+    username ,
+    oAuth2Token ,
+    pullRequestId ,
+    gitHubUrl ,
+    commentOnlyChangedContent, violationConfigs);
+  }
+
+
 
  @Override
  public BuildStepMonitor getRequiredMonitorService() {

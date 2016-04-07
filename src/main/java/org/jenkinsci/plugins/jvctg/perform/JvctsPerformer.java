@@ -47,7 +47,7 @@ import com.google.common.io.CharStreams;
 
 public class JvctsPerformer {
 
- public static void jvctsPerform(final ViolationsToGitHubConfig configUnexpanded, Run<?, ?> build,
+ public static void jvctsPerform(final ViolationsToGitHubConfig configUnexpanded, FilePath fp, Run<?, ?> build,
                                  final TaskListener listener) {
   try {
    EnvVars env = build.getEnvironment(listener);
@@ -60,14 +60,7 @@ public class JvctsPerformer {
    listener.getLogger().println("Running Jenkins Violation Comments To GitHub");
    listener.getLogger().println("Will comment " + configExpanded.getPullRequestId());
 
-   FilePath workspace = build.getExecutor().getCurrentWorkspace();
-   URI workspacePath = build.getExecutor().getCurrentWorkspace().toURI();
-   FilePath fp;
-   if (workspace.isRemote()) {
-    fp = new FilePath(workspace.getChannel(), workspacePath.getPath());
-   } else {
-    fp = new FilePath(new File(workspacePath));
-   }
+
    fp.act(new FileCallable<Void>() {
 
     private static final long serialVersionUID = 6166111757469534436L;
@@ -183,9 +176,9 @@ public class JvctsPerformer {
   listener.getLogger().println(FIELD_REPOSITORYNAME + ": " + config.getRepositoryName());
   listener.getLogger().println(FIELD_PULLREQUESTID + ": " + config.getPullRequestId());
 
-  listener.getLogger().println(FIELD_USERNAME + ": " + !config.getUsername().isEmpty());
-  listener.getLogger().println(FIELD_PASSWORD + ": " + !config.getPassword().isEmpty());
-  listener.getLogger().println(FIELD_OAUTH2TOKEN + ": " + !config.getOAuth2Token().isEmpty());
+  listener.getLogger().println(FIELD_USERNAME + ": " + !isNullOrEmpty(config.getUsername()));
+  listener.getLogger().println(FIELD_PASSWORD + ": " + !isNullOrEmpty(config.getPassword()));
+  listener.getLogger().println(FIELD_OAUTH2TOKEN + ": " + !isNullOrEmpty(config.getOAuth2Token()));
 
   listener.getLogger().println(FIELD_CREATESINGLEFILECOMMENTS + ": " + config.getCreateSingleFileComments());
   listener.getLogger().println(

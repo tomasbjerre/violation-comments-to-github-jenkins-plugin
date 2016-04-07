@@ -6,11 +6,13 @@ import net.sf.json.JSONObject;
 import org.kohsuke.stapler.DataBoundSetter;
 import org.kohsuke.stapler.StaplerRequest;
 
+import java.io.Serializable;
+
 /**
  * Created by magnayn on 07/04/2016.
  */
 @Extension
-public class ViolationsToGitHubConfiguration extends GlobalConfiguration {
+public class ViolationsToGitHubConfiguration extends GlobalConfiguration implements Serializable {
 
 
     public String username;
@@ -35,6 +37,7 @@ public class ViolationsToGitHubConfiguration extends GlobalConfiguration {
     @Override
     public boolean configure(StaplerRequest req, JSONObject json) throws FormException {
         req.bindJSON(this, json);
+        save();
         return true;
     }
 

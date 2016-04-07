@@ -41,6 +41,21 @@ public class ViolationsToGitHubConfig implements Serializable {
   this.commentOnlyChangedContent = rhs.commentOnlyChangedContent;
  }
 
+
+ public ViolationsToGitHubConfig( boolean createSingleFileComments, boolean createCommentWithAllSingleFileComments, String repositoryName, String repositoryOwner, String password, String username, String oAuth2Token, String pullRequestId, String gitHubUrl, boolean commentOnlyChangedContent, List<ViolationConfig> violationConfigs) {
+  this.violationConfigs = violationConfigs;
+  this.createSingleFileComments = createSingleFileComments;
+  this.createCommentWithAllSingleFileComments = createCommentWithAllSingleFileComments;
+  this.repositoryName = repositoryName;
+  this.repositoryOwner = repositoryOwner;
+  this.password = password;
+  this.username = username;
+  this.oAuth2Token = oAuth2Token;
+  this.pullRequestId = pullRequestId;
+  this.gitHubUrl = gitHubUrl;
+  this.commentOnlyChangedContent = commentOnlyChangedContent;
+ }
+
  public String getOAuth2Token() {
   return oAuth2Token;
  }
