@@ -3,12 +3,21 @@ Changelog of Violation Comments to GitHub plugin for Jenkins.
 ## Unreleased
 ### No issue
 
+**Making Violation class serializable**
+
+
+[c06614cbc559b00](https://github.com/repos/jenkinsci/violation-comments-to-github-plugin/c06614cbc559b00) Tomas Bjerre *2016-04-23 17:20:11*
+
+
+## 1.8
+### No issue
+
 **git-changelog-lib 1.6, improved FindBugs parsing**
 
  * Improving changelog 
  * And formatting some code after merge of PR. 
 
-[08944da188c1d27](https://github.com/repos/jenkinsci/violation-comments-to-github-plugin/08944da188c1d27) Tomas Bjerre *2016-04-07 17:11:29*
+[d6b9c6b15b4a3a7](https://github.com/repos/jenkinsci/violation-comments-to-github-plugin/d6b9c6b15b4a3a7) Tomas Bjerre *2016-04-07 17:33:36*
 
 **Add some readme text about workflow.**
 
