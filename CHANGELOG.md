@@ -3,10 +3,19 @@ Changelog of Violation Comments to GitHub plugin for Jenkins.
 ## Unreleased
 ### No issue
 
+**Andoid lint**
+
+
+[3dbced66cbfd772](https://github.com/repos/jenkinsci/violation-comments-to-github-plugin/3dbced66cbfd772) Tomas Bjerre *2016-04-27 06:07:29*
+
+
+## 1.9
+### No issue
+
 **Making Violation class serializable**
 
 
-[c06614cbc559b00](https://github.com/repos/jenkinsci/violation-comments-to-github-plugin/c06614cbc559b00) Tomas Bjerre *2016-04-23 17:20:11*
+[2fb059a894ac812](https://github.com/repos/jenkinsci/violation-comments-to-github-plugin/2fb059a894ac812) Tomas Bjerre *2016-04-23 17:23:49*
 
 
 ## 1.8
