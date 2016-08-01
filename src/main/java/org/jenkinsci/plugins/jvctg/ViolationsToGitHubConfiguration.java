@@ -17,11 +17,6 @@ import org.kohsuke.stapler.StaplerRequest;
 public class ViolationsToGitHubConfiguration extends GlobalConfiguration implements Serializable {
 
  private static final long serialVersionUID = -2832851253933848205L;
- public String username;
- public String password;
- public String oAuth2Token;
- public String gitHubUrl;
- public String repositoryOwner;
 
  /**
   * Returns this singleton instance.
@@ -31,6 +26,13 @@ public class ViolationsToGitHubConfiguration extends GlobalConfiguration impleme
  public static ViolationsToGitHubConfiguration get() {
   return GlobalConfiguration.all().get(ViolationsToGitHubConfiguration.class);
  }
+
+ public String gitHubUrl;
+ public String oAuth2Token;
+ public String password;
+ public String repositoryOwner;
+
+ public String username;
 
  public ViolationsToGitHubConfiguration() {
   load();
@@ -43,35 +45,24 @@ public class ViolationsToGitHubConfiguration extends GlobalConfiguration impleme
   return true;
  }
 
- public String getUsername() {
-  return username;
- }
-
- @DataBoundSetter
- public void setUsername(String username) {
-  this.username = username;
- }
-
- public String getPassword() {
-  return password;
- }
-
- @DataBoundSetter
- public void setPassword(String password) {
-  this.password = password;
+ public String getGitHubUrl() {
+  return this.gitHubUrl;
  }
 
  public String getoAuth2Token() {
-  return oAuth2Token;
+  return this.oAuth2Token;
  }
 
- @DataBoundSetter
- public void setoAuth2Token(String oAuth2Token) {
-  this.oAuth2Token = oAuth2Token;
+ public String getPassword() {
+  return this.password;
  }
 
- public String getGitHubUrl() {
-  return gitHubUrl;
+ public String getRepositoryOwner() {
+  return this.repositoryOwner;
+ }
+
+ public String getUsername() {
+  return this.username;
  }
 
  @DataBoundSetter
@@ -79,12 +70,23 @@ public class ViolationsToGitHubConfiguration extends GlobalConfiguration impleme
   this.gitHubUrl = gitHubUrl;
  }
 
- public String getRepositoryOwner() {
-  return repositoryOwner;
+ @DataBoundSetter
+ public void setoAuth2Token(String oAuth2Token) {
+  this.oAuth2Token = oAuth2Token;
+ }
+
+ @DataBoundSetter
+ public void setPassword(String password) {
+  this.password = password;
  }
 
  @DataBoundSetter
  public void setRepositoryOwner(String repositoryOwner) {
   this.repositoryOwner = repositoryOwner;
+ }
+
+ @DataBoundSetter
+ public void setUsername(String username) {
+  this.username = username;
  }
 }

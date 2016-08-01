@@ -30,7 +30,7 @@ public final class ViolationsToGitHubDescriptor extends BuildStepDescriptor<Publ
  public ViolationsToGitHubDescriptor() {
   super(ViolationsToGitHubRecorder.class);
   load();
-  if (config == null || config.getViolationConfigs().size() != createNewConfig().getViolationConfigs().size()) {
+  if (this.config == null || this.config.getViolationConfigs().size() != createNewConfig().getViolationConfigs().size()) {
    this.config = createNewConfig();
   }
  }
@@ -43,6 +43,18 @@ public final class ViolationsToGitHubDescriptor extends BuildStepDescriptor<Publ
  @Override
  public String getHelpFile() {
   return super.getHelpFile();
+ }
+
+ /**
+  * Create new blank configuration. Used when job is created.
+  */
+ public ViolationsToGitHubConfig getNewConfig() {
+  return createNewConfig();
+ }
+
+ @Override
+ public boolean isApplicable(@SuppressWarnings("rawtypes") final Class<? extends AbstractProject> jobType) {
+  return true;
  }
 
  @SuppressWarnings("unchecked")
@@ -71,17 +83,5 @@ public final class ViolationsToGitHubDescriptor extends BuildStepDescriptor<Publ
   ViolationsToGitHubRecorder publisher = new ViolationsToGitHubRecorder();
   publisher.setConfig(config);
   return publisher;
- }
-
- @Override
- public boolean isApplicable(@SuppressWarnings("rawtypes") final Class<? extends AbstractProject> jobType) {
-  return true;
- }
-
- /**
-  * Create new blank configuration. Used when job is created.
-  */
- public ViolationsToGitHubConfig getNewConfig() {
-  return createNewConfig();
  }
 }

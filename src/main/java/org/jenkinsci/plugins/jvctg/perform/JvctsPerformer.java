@@ -6,7 +6,7 @@ import static com.google.common.base.Throwables.propagate;
 import static com.google.common.collect.Lists.newArrayList;
 import static java.util.logging.Level.INFO;
 import static java.util.logging.Level.SEVERE;
-import static org.jenkinsci.plugins.jvctg.JvctsLogger.doLog;
+import static org.jenkinsci.plugins.jvctg.JvctgLogger.doLog;
 import static org.jenkinsci.plugins.jvctg.config.ViolationsToGitHubConfigHelper.FIELD_COMMENTONLYCHANGEDCONTENT;
 import static org.jenkinsci.plugins.jvctg.config.ViolationsToGitHubConfigHelper.FIELD_CREATECOMMENTWITHALLSINGLEFILECOMMENTS;
 import static org.jenkinsci.plugins.jvctg.config.ViolationsToGitHubConfigHelper.FIELD_CREATESINGLEFILECOMMENTS;
@@ -43,52 +43,6 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.io.CharStreams;
 
 public class JvctsPerformer {
-
- public static void jvctsPerform(final ViolationsToGitHubConfig configUnexpanded, FilePath fp, Run<?, ?> build,
-   final TaskListener listener) {
-  try {
-   EnvVars env = build.getEnvironment(listener);
-   final ViolationsToGitHubConfig configExpanded = expand(configUnexpanded, env);
-   listener.getLogger().println("---");
-   listener.getLogger().println("--- Jenkins Violation Comments to GitHub ---");
-   listener.getLogger().println("---");
-   logConfiguration(configExpanded, build, listener);
-
-   listener.getLogger().println("Running Jenkins Violation Comments To GitHub");
-   listener.getLogger().println("Will comment " + configExpanded.getPullRequestId());
-
-   fp.act(new FileCallable<Void>() {
-
-    private static final long serialVersionUID = 6166111757469534436L;
-
-    @Override
-    public Void invoke(File workspace, VirtualChannel channel) throws IOException, InterruptedException {
-     setupFindBugsMessages();
-     doLog(INFO, "Workspace: " + workspace.getAbsolutePath());
-     doPerform(configExpanded, workspace, listener);
-     return null;
-    }
-
-    @Override
-    public void checkRoles(RoleChecker checker) throws SecurityException {
-
-    }
-   });
-  } catch (Exception e) {
-   doLog(SEVERE, "", e);
-   return;
-  }
- }
-
- private static void setupFindBugsMessages() {
-  try {
-   String findbugsMessagesXml = CharStreams.toString(new InputStreamReader(JvctsPerformer.class
-     .getResourceAsStream("findbugs-messages.xml")));
-   setFindbugsMessagesXml(findbugsMessagesXml);
-  } catch (IOException e) {
-   propagate(e);
-  }
- }
 
  @VisibleForTesting
  public static void doPerform(ViolationsToGitHubConfig config, File workspace, TaskListener listener)
@@ -141,6 +95,42 @@ public class JvctsPerformer {
   }
  }
 
+ public static void jvctsPerform(final ViolationsToGitHubConfig configUnexpanded, FilePath fp, Run<?, ?> build,
+   final TaskListener listener) {
+  try {
+   EnvVars env = build.getEnvironment(listener);
+   final ViolationsToGitHubConfig configExpanded = expand(configUnexpanded, env);
+   listener.getLogger().println("---");
+   listener.getLogger().println("--- Jenkins Violation Comments to GitHub ---");
+   listener.getLogger().println("---");
+   logConfiguration(configExpanded, build, listener);
+
+   listener.getLogger().println("Running Jenkins Violation Comments To GitHub");
+   listener.getLogger().println("Will comment " + configExpanded.getPullRequestId());
+
+   fp.act(new FileCallable<Void>() {
+
+    private static final long serialVersionUID = 6166111757469534436L;
+
+    @Override
+    public void checkRoles(RoleChecker checker) throws SecurityException {
+
+    }
+
+    @Override
+    public Void invoke(File workspace, VirtualChannel channel) throws IOException, InterruptedException {
+     setupFindBugsMessages();
+     doLog(INFO, "Workspace: " + workspace.getAbsolutePath());
+     doPerform(configExpanded, workspace, listener);
+     return null;
+    }
+   });
+  } catch (Exception e) {
+   doLog(SEVERE, "", e);
+   return;
+  }
+ }
+
  /**
   * Makes sure any Jenkins variable, used in the configuration fields, are
   * evaluated.
@@ -183,6 +173,16 @@ public class JvctsPerformer {
 
   for (ViolationConfig violationConfig : config.getViolationConfigs()) {
    doLog(INFO, violationConfig.getReporter() + " with pattern " + violationConfig.getPattern());
+  }
+ }
+
+ private static void setupFindBugsMessages() {
+  try {
+   String findbugsMessagesXml = CharStreams.toString(new InputStreamReader(JvctsPerformer.class
+     .getResourceAsStream("findbugs-messages.xml")));
+   setFindbugsMessagesXml(findbugsMessagesXml);
+  } catch (IOException e) {
+   propagate(e);
   }
  }
 }

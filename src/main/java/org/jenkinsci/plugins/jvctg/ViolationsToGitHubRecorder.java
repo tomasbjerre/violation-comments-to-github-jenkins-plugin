@@ -28,23 +28,6 @@ public class ViolationsToGitHubRecorder extends Recorder implements SimpleBuildS
  public static final BuildStepDescriptor<Publisher> DESCRIPTOR = new ViolationsToGitHubDescriptor();
  private ViolationsToGitHubConfig config;
 
- @Override
- public void perform(@Nonnull Run<?, ?> build, @Nonnull FilePath filePath, @Nonnull Launcher launcher,
-   @Nonnull TaskListener listener) throws InterruptedException, IOException {
-
-  ViolationsToGitHubConfig combinedConfig = new ViolationsToGitHubConfig(config);
-  ViolationsToGitHubConfiguration defaults = ViolationsToGitHubConfiguration.get();
-
-  combinedConfig.applyDefaults(defaults);
-
-  jvctsPerform(combinedConfig, filePath, build, listener);
- }
-
- @Override
- public BuildStepDescriptor<Publisher> getDescriptor() {
-  return DESCRIPTOR;
- }
-
  public ViolationsToGitHubRecorder() {
  }
 
@@ -53,9 +36,18 @@ public class ViolationsToGitHubRecorder extends Recorder implements SimpleBuildS
    String repositoryName, String repositoryOwner, String password, String username, String oAuth2Token,
    String pullRequestId, String gitHubUrl, boolean commentOnlyChangedContent, List<ViolationConfig> violationConfigs) {
 
-  config = new ViolationsToGitHubConfig(createSingleFileComments, createCommentWithAllSingleFileComments,
+  this.config = new ViolationsToGitHubConfig(createSingleFileComments, createCommentWithAllSingleFileComments,
     repositoryName, repositoryOwner, password, username, oAuth2Token, pullRequestId, gitHubUrl,
     commentOnlyChangedContent, violationConfigs);
+ }
+
+ public ViolationsToGitHubConfig getConfig() {
+  return this.config;
+ }
+
+ @Override
+ public BuildStepDescriptor<Publisher> getDescriptor() {
+  return DESCRIPTOR;
  }
 
  @Override
@@ -63,12 +55,20 @@ public class ViolationsToGitHubRecorder extends Recorder implements SimpleBuildS
   return NONE;
  }
 
- public void setConfig(ViolationsToGitHubConfig config) {
-  this.config = config;
+ @Override
+ public void perform(@Nonnull Run<?, ?> build, @Nonnull FilePath filePath, @Nonnull Launcher launcher,
+   @Nonnull TaskListener listener) throws InterruptedException, IOException {
+
+  ViolationsToGitHubConfig combinedConfig = new ViolationsToGitHubConfig(this.config);
+  ViolationsToGitHubConfiguration defaults = ViolationsToGitHubConfiguration.get();
+
+  combinedConfig.applyDefaults(defaults);
+
+  jvctsPerform(combinedConfig, filePath, build, listener);
  }
 
- public ViolationsToGitHubConfig getConfig() {
-  return config;
+ public void setConfig(ViolationsToGitHubConfig config) {
+  this.config = config;
  }
 
 }
