@@ -3,6 +3,23 @@ Changelog of Violation Comments to GitHub plugin for Jenkins.
 ## Unreleased
 ### No issue
 
+**Doc**
+
+
+[1ec01912b2d86a7](https://github.com/repos/jenkinsci/violation-comments-to-github-plugin/1ec01912b2d86a7) Tomas Bjerre *2016-08-02 14:47:40*
+
+
+## 1.11
+### GitHub [#4](https://github.com/jenkinsci/violation-comments-to-github-plugin/issues/4) Integrate Credentials Product
+
+**Credentials plugin #4**
+
+
+[7d0b7e29d250ee7](https://github.com/repos/jenkinsci/violation-comments-to-github-plugin/7d0b7e29d250ee7) Tomas Bjerre *2016-08-02 05:29:32*
+
+
+### No issue
+
 **Reformat of Java code**
 
 
