@@ -3,10 +3,20 @@ Changelog of Violation Comments to GitHub plugin for Jenkins.
 ## Unreleased
 ### No issue
 
-**Doc**
+**job-dsl-plugin compatible**
+
+ * Adding @DataBoundConstructor to ViolationConfig to make it compatible with job-dsl-plugin. 
+
+[c0d050788f5c765](https://github.com/repos/jenkinsci/violation-comments-to-github-plugin/c0d050788f5c765) Tomas Bjerre *2016-08-09 17:57:40*
 
 
-[1ec01912b2d86a7](https://github.com/repos/jenkinsci/violation-comments-to-github-plugin/1ec01912b2d86a7) Tomas Bjerre *2016-08-02 14:47:40*
+## 1.12
+### No issue
+
+**Making credentials option persistent in job config view**
+
+
+[c1ad09cf93badf8](https://github.com/repos/jenkinsci/violation-comments-to-github-plugin/c1ad09cf93badf8) Tomas Bjerre *2016-08-02 18:10:16*
 
 
 ## 1.11

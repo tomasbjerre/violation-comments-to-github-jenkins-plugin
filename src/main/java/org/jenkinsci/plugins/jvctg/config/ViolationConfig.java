@@ -2,6 +2,8 @@ package org.jenkinsci.plugins.jvctg.config;
 
 import java.io.Serializable;
 
+import org.kohsuke.stapler.DataBoundConstructor;
+
 import se.bjurr.violations.lib.reports.Reporter;
 
 public class ViolationConfig implements Serializable {
@@ -14,6 +16,7 @@ public class ViolationConfig implements Serializable {
 
  }
 
+ @DataBoundConstructor
  public ViolationConfig(Reporter reporter, String pattern) {
   this.reporter = reporter;
   this.pattern = pattern;
