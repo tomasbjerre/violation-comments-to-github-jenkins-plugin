@@ -43,50 +43,72 @@ The pull request will be commented like this.
 
 ![Pull request comment](https://github.com/jenkinsci/violation-comments-to-github-jenkins-plugin/blob/master/sandbox/github-pr-diff-comment.png)
 
-# Use in workflow
+## Job DSL Plugin
 
-This plugin can participate in a Jenkins workflow. For example, a Jenkinsfile like:
+This plugin can be used with the Job DSL Plugin.
 
 ```
-node {
- stage name: "Checkout";    
- checkout scm;
-
- sh 'git rev-parse HEAD > status'
- commit = readFile('status').trim()
-
- // figure out the branch name
- def jobName = "${env.JOB_NAME}"
- def idx = jobName.lastIndexOf('/');
- branch = jobName.substring(idx+1);
-
- // Un-remove the / to - conversion.
- branch = branch.replace("-","/");
- branch = branch.replace("%2F","/");
- theJob = jobName.replace("/", " ");
-
- echo "Build of ${env.JOB_NAME} #${env.BUILD_NUMBER} : ${commit} on ${branch}";
-
- int pr = 0;
- if( branch.startsWith("PR/") ) {
-  pr = Integer.parseInt(branch.substring(3));
-  echo "This is PR ${pr}";
-  step([$class: 'ViolationsToGitHubRecorder', 
-   repositoryOwner: 'AllocateSoftware',
-   repositoryName: 'experiment',
-   createSingleFileComments: true,
-   pullRequestId: "${pr}"
-   ]);
- }
-
- job {
-  configure {
-    echo "this is ${it}";
+job('example') {
+ publishers {
+  violationsToGitHubRecorder {
+   config {
+    gitHubUrl("https://api.github.com/")
+    repositoryOwner("tomasbjerre")
+    repositoryName("violations-test")
+    pullRequestId("2")
+    useOAuth2Token(false)
+    oAuth2Token("")
+    useUsernamePasswordCredentials(false)
+    usernamePasswordCredentialsId("")
+    useUsernamePassword(true)
+    username("")
+    password("")
+    createSingleFileComments(true)
+    createCommentWithAllSingleFileComments(true)
+    commentOnlyChangedContent(true)
+    violationConfigs {
+     violationConfig {
+      reporter("FINDBUGS")
+      pattern(".*/findbugs/.*\\.xml\$")
+     }
+    }
+   }
   }
  }
 }
 ```
 
+## Pipeline Plugin
+
+This plugin can be used with the Pipeline Plugin:
+
+```
+node {
+ step([
+  $class: 'ViolationsToGitHubRecorder', 
+  config: [
+   gitHubUrl: 'https://api.github.com/', 
+   repositoryOwner: 'tomasbjerre', 
+   repositoryName: 'violations-test', 
+   pullRequestId: '2', 
+   useOAuth2Token: false, 
+   oAuth2Token: '', 
+   useUsernamePassword: true, 
+   username: 'admin', 
+   password: 'admin', 
+   useUsernamePasswordCredentials: false, 
+   usernamePasswordCredentialsId: '',
+   createCommentWithAllSingleFileComments: true, 
+   createSingleFileComments: true, 
+   commentOnlyChangedContent: true, 
+   violationConfigs: [
+    [ pattern: '.*/checkstyle/.*\\.xml$', reporter: 'CHECKSTYLE' ], 
+    [ pattern: '.*/findbugs/.*\\.xml$', reporter: 'FINDBUGS' ], 
+   ]
+  ]
+ ])
+}
+```
 
 # Plugin development
 More details on Jenkins plugin development is available [here](https://wiki.jenkins-ci.org/display/JENKINS/Plugin+tutorial).

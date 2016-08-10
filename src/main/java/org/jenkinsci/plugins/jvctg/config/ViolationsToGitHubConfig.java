@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.jenkinsci.plugins.jvctg.ViolationsToGitHubConfiguration;
+import org.kohsuke.stapler.DataBoundConstructor;
 
 public class ViolationsToGitHubConfig implements Serializable {
  private static final long serialVersionUID = 4851568645021422528L;
@@ -31,12 +32,15 @@ public class ViolationsToGitHubConfig implements Serializable {
 
  }
 
+ @DataBoundConstructor
  public ViolationsToGitHubConfig(boolean createSingleFileComments, boolean createCommentWithAllSingleFileComments,
    String repositoryName, String repositoryOwner, String password, String username, String oAuth2Token,
    String pullRequestId, String gitHubUrl, boolean commentOnlyChangedContent, List<ViolationConfig> violationConfigs,
    String usernamePasswordCredentialsId, boolean useOAuth2Token, boolean useUsernamePasswordCredentials,
    boolean useUsernamePassword) {
-  this.violationConfigs = violationConfigs;
+  List<ViolationConfig> allViolationConfigs = includeAllReporters(violationConfigs);
+
+  this.violationConfigs = allViolationConfigs;
   this.createSingleFileComments = createSingleFileComments;
   this.createCommentWithAllSingleFileComments = createCommentWithAllSingleFileComments;
   this.repositoryName = repositoryName;
@@ -347,6 +351,18 @@ public class ViolationsToGitHubConfig implements Serializable {
     + this.useOAuth2Token + ", username=" + this.username + ", usernamePasswordCredentialsId="
     + this.usernamePasswordCredentialsId + ", useUsernamePassword=" + this.useUsernamePassword + ", violationConfigs="
     + this.violationConfigs + "]";
+ }
+
+ private List<ViolationConfig> includeAllReporters(List<ViolationConfig> violationConfigs) {
+  List<ViolationConfig> allViolationConfigs = ViolationsToGitHubConfigHelper.getAllViolationConfigs();
+  for (ViolationConfig candidate : allViolationConfigs) {
+   for (ViolationConfig input : violationConfigs) {
+    if (candidate.getReporter() == input.getReporter()) {
+     candidate.setPattern(input.getPattern());
+    }
+   }
+  }
+  return allViolationConfigs;
  }
 
 }

@@ -3,11 +3,20 @@ Changelog of Violation Comments to GitHub plugin for Jenkins.
 ## Unreleased
 ### No issue
 
+**Cleaning up pom.xml**
+
+
+[c46f4b0761f509d](https://github.com/repos/jenkinsci/violation-comments-to-github-plugin/c46f4b0761f509d) Tomas Bjerre *2016-08-10 14:39:33*
+
+
+## 1.13
+### No issue
+
 **job-dsl-plugin compatible**
 
  * Adding @DataBoundConstructor to ViolationConfig to make it compatible with job-dsl-plugin. 
 
-[c0d050788f5c765](https://github.com/repos/jenkinsci/violation-comments-to-github-plugin/c0d050788f5c765) Tomas Bjerre *2016-08-09 17:57:40*
+[012460472023788](https://github.com/repos/jenkinsci/violation-comments-to-github-plugin/012460472023788) Tomas Bjerre *2016-08-09 17:58:22*
 
 
 ## 1.12

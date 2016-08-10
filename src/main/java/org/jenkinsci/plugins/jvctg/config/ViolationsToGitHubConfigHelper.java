@@ -26,13 +26,18 @@ public class ViolationsToGitHubConfigHelper {
 
  public static ViolationsToGitHubConfig createNewConfig() {
   ViolationsToGitHubConfig config = new ViolationsToGitHubConfig();
+  List<ViolationConfig> violationConfigs = getAllViolationConfigs();
+  config.setViolationConfigs(violationConfigs);
+  return config;
+ }
+
+ public static List<ViolationConfig> getAllViolationConfigs() {
   List<ViolationConfig> violationConfigs = newArrayList();
   for (Reporter reporter : Reporter.values()) {
    ViolationConfig violationConfig = new ViolationConfig();
    violationConfig.setReporter(reporter);
    violationConfigs.add(violationConfig);
   }
-  config.setViolationConfigs(violationConfigs);
-  return config;
+  return violationConfigs;
  }
 }
