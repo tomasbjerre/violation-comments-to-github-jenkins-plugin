@@ -60,13 +60,15 @@ public class JvctgPerformer {
 
   List<Violation> allParsedViolations = newArrayList();
   for (ViolationConfig violationConfig : config.getViolationConfigs()) {
-   List<Violation> parsedViolations = violationsReporterApi()//
-     .findAll(violationConfig.getReporter())//
-     .inFolder(workspace.getAbsolutePath())//
-     .withPattern(violationConfig.getPattern())//
-     .violations();
-   allParsedViolations.addAll(parsedViolations);
-   listener.getLogger().println("Found " + parsedViolations.size() + " violations from " + violationConfig + ".");
+   if (!isNullOrEmpty(violationConfig.getPattern())) {
+    List<Violation> parsedViolations = violationsReporterApi()//
+      .findAll(violationConfig.getReporter())//
+      .inFolder(workspace.getAbsolutePath())//
+      .withPattern(violationConfig.getPattern())//
+      .violations();
+    allParsedViolations.addAll(parsedViolations);
+    listener.getLogger().println("Found " + parsedViolations.size() + " violations from " + violationConfig + ".");
+   }
   }
 
   String oAuth2Token = null;

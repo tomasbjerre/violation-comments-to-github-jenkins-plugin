@@ -84,6 +84,20 @@ This plugin can be used with the Pipeline Plugin:
 
 ```
 node {
+
+ checkout([
+  $class: 'GitSCM', 
+  branches: [[ name: '*/master' ]], 
+  doGenerateSubmoduleConfigurations: false,
+  extensions: [],
+  submoduleCfg: [],
+  userRemoteConfigs: [[ url: 'https://github.com/tomasbjerre/violations-test.git' ]]
+ ])
+
+ sh '''
+ ./gradlew build
+ '''
+
  step([
   $class: 'ViolationsToGitHubRecorder', 
   config: [

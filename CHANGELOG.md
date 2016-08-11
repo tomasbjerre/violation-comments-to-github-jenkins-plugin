@@ -1,7 +1,12 @@
 # Violation Comments to GitHub changelog
 Changelog of Violation Comments to GitHub plugin for Jenkins.
-## Unreleased
+## 1.14
 ### No issue
+
+**Correcting job DSL**
+
+
+[f744cd609f27abf](https://github.com/repos/jenkinsci/violation-comments-to-github-plugin/f744cd609f27abf) Tomas Bjerre *2016-08-10 17:16:20*
 
 **Cleaning up pom.xml**
 
