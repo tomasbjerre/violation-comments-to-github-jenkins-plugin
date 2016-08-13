@@ -77,31 +77,10 @@ public class JvctgPerformer {
   if (config.isUseOAuth2Token()) {
    oAuth2Token = checkNotNull(emptyToNull(config.getOAuth2Token()), "OAuth2Token selected but not set!");
    listener.getLogger().println("Using OAuth2Token");
-  } else if (config.isUseUsernamePassword()) {
-   username = checkNotNull(emptyToNull(config.getUsername()), "username selected but not set!");
-   password = checkNotNull(emptyToNull(config.getPassword()), "password selected but not set!");
-   listener.getLogger().println("Using username / password");
-  } else if (config.isUseUsernamePasswordCredentials()) {
-   if (!isNullOrEmpty(config.getUsernamePasswordCredentialsId())) {
-    Optional<StandardUsernamePasswordCredentials> credentials = findCredentials(config
-      .getUsernamePasswordCredentialsId());
-    if (credentials.isPresent()) {
-     username = checkNotNull(emptyToNull(credentials.get().getUsername()), "Credentials username selected but not set!");
-     password = checkNotNull(emptyToNull(credentials.get().getPassword().getPlainText()),
-       "Credentials password selected but not set!");
-     listener.getLogger().println("Using credentials");
-    } else {
-     listener.getLogger().println("Credentials not found!");
-     return;
-    }
-   } else {
-    listener.getLogger().println("No credentials selected!");
-    return;
-   }
   } else {
-   listener.getLogger().println(
-     "No OAuth2 token and no username/password specified. Will not comment any pull request.");
-   return;
+   username = checkNotNull(emptyToNull(config.getUsername()), "username not set!");
+   password = checkNotNull(emptyToNull(config.getPassword()), "password not set!");
+   listener.getLogger().println("Using username / password");
   }
 
   listener.getLogger().println(
@@ -138,6 +117,8 @@ public class JvctgPerformer {
    listener.getLogger().println("---");
    logConfiguration(configExpanded, build, listener);
 
+   setCredentials(configExpanded, listener);
+
    listener.getLogger().println("Running Jenkins Violation Comments To GitHub");
    listener.getLogger().println("Will comment " + configExpanded.getPullRequestId());
 
@@ -162,6 +143,7 @@ public class JvctgPerformer {
    listener.getLogger().println(e.getMessage());
    Logger.getLogger(JvctgPerformer.class.getName()).log(SEVERE, "", e);
    return;
+
   }
  }
 
@@ -184,6 +166,30 @@ public class JvctgPerformer {
 
   for (ViolationConfig violationConfig : config.getViolationConfigs()) {
    listener.getLogger().println(violationConfig.getReporter() + " with pattern " + violationConfig.getPattern());
+  }
+ }
+
+ private static void setCredentials(ViolationsToGitHubConfig configExpanded, TaskListener listener) {
+  if (configExpanded.isUseUsernamePasswordCredentials()) {
+   if (!isNullOrEmpty(configExpanded.getUsernamePasswordCredentialsId())) {
+    Optional<StandardUsernamePasswordCredentials> credentials = findCredentials(configExpanded
+      .getUsernamePasswordCredentialsId());
+    if (credentials.isPresent()) {
+     String username = checkNotNull(emptyToNull(credentials.get().getUsername()),
+       "Credentials username selected but not set!");
+     String password = checkNotNull(emptyToNull(credentials.get().getPassword().getPlainText()),
+       "Credentials password selected but not set!");
+     configExpanded.setUsername(username);
+     configExpanded.setPassword(password);
+     listener.getLogger().println("Using username and password from credentials");
+    } else {
+     listener.getLogger().println("Credentials not found!");
+     return;
+    }
+   } else {
+    listener.getLogger().println("Credentials checked but not selected!");
+    return;
+   }
   }
  }
 

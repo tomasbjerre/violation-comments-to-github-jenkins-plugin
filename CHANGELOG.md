@@ -1,5 +1,23 @@
 # Violation Comments to GitHub changelog
 Changelog of Violation Comments to GitHub plugin for Jenkins.
+## Unreleased
+### No issue
+
+**Evaluating credentials on master**
+
+
+[5e3cb8cdfc91874](https://github.com/repos/jenkinsci/violation-comments-to-github-plugin/5e3cb8cdfc91874) Tomas Bjerre *2016-08-13 09:04:32*
+
+
+## 1.15
+### No issue
+
+**Allowing pipeline DSL not to specify all reporters**
+
+
+[012593ed8acc4e3](https://github.com/repos/jenkinsci/violation-comments-to-github-plugin/012593ed8acc4e3) Tomas Bjerre *2016-08-11 19:01:05*
+
+
 ## 1.14
 ### No issue
 
