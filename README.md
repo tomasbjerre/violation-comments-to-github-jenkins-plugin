@@ -35,10 +35,6 @@ When installed, a post build action will be available.
 
 ![Post build action menu](https://github.com/jenkinsci/violation-comments-to-github-jenkins-plugin/blob/master/sandbox/jenkins-postbuildmenu.png)
 
-The configuration looks like this.
-
-![Post build action](https://github.com/jenkinsci/violation-comments-to-github-jenkins-plugin/blob/master/sandbox/jenkins-postbuildaction.png)
-
 The pull request will be commented like this.
 
 ![Pull request comment](https://github.com/jenkinsci/violation-comments-to-github-jenkins-plugin/blob/master/sandbox/github-pr-diff-comment.png)
