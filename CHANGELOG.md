@@ -3,10 +3,19 @@ Changelog of Violation Comments to GitHub plugin for Jenkins.
 ## Unreleased
 ### No issue
 
+**doc**
+
+
+[6d74691070d94c0](https://github.com/repos/jenkinsci/violation-comments-to-github-plugin/6d74691070d94c0) Tomas Bjerre *2016-08-13 09:48:39*
+
+
+## 1.16
+### No issue
+
 **Evaluating credentials on master**
 
 
-[5e3cb8cdfc91874](https://github.com/repos/jenkinsci/violation-comments-to-github-plugin/5e3cb8cdfc91874) Tomas Bjerre *2016-08-13 09:04:32*
+[ef792066f9da126](https://github.com/repos/jenkinsci/violation-comments-to-github-plugin/ef792066f9da126) Tomas Bjerre *2016-08-13 09:04:48*
 
 
 ## 1.15

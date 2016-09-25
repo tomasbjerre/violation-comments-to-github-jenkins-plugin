@@ -21,6 +21,10 @@
     <f:password value="${config.password}" />
   </f:entry>
 
+  <f:entry title="OAuth2 token Crendential" field="oAuth2TokenCredentialsId">
+    <c:select />
+  </f:entry>
+
   <f:entry title="OAuth2 token" field="oAuth2Token">
     <f:password value="${config.oAuth2Token}" />
   </f:entry>

@@ -34,6 +34,7 @@ public class ViolationsToGitHubConfiguration extends GlobalConfiguration impleme
  public String password;
  public String repositoryOwner;
  public String username;
+ private String oAuth2TokenCredentialsId;
  private String usernamePasswordCredentialsId;
 
  public ViolationsToGitHubConfiguration() {
@@ -47,6 +48,10 @@ public class ViolationsToGitHubConfiguration extends GlobalConfiguration impleme
   return true;
  }
 
+ public ListBoxModel doFillOAuth2TokenCredentialsIdItems() {
+  return CredentialsHelper.doFillOAuth2TokenCredentialsIdItems();
+ }
+
  public ListBoxModel doFillUsernamePasswordCredentialsIdItems() {
   return CredentialsHelper.doFillUsernamePasswordCredentialsIdItems();
  }
@@ -57,6 +62,10 @@ public class ViolationsToGitHubConfiguration extends GlobalConfiguration impleme
 
  public String getoAuth2Token() {
   return this.oAuth2Token;
+ }
+
+ public String getoAuth2TokenCredentialsId() {
+  return this.oAuth2TokenCredentialsId;
  }
 
  public String getPassword() {
@@ -86,6 +95,11 @@ public class ViolationsToGitHubConfiguration extends GlobalConfiguration impleme
  }
 
  @DataBoundSetter
+ public void setoAuth2TokenCredentialsId(String oAuth2TokenCredentialsId) {
+  this.oAuth2TokenCredentialsId = oAuth2TokenCredentialsId;
+ }
+
+ @DataBoundSetter
  public void setPassword(String password) {
   this.password = password;
  }
@@ -100,6 +114,7 @@ public class ViolationsToGitHubConfiguration extends GlobalConfiguration impleme
   this.username = username;
  }
 
+ @DataBoundSetter
  public void setUsernamePasswordCredentialsId(String usernamePasswordCredentialsId) {
   this.usernamePasswordCredentialsId = usernamePasswordCredentialsId;
  }
@@ -108,6 +123,7 @@ public class ViolationsToGitHubConfiguration extends GlobalConfiguration impleme
  public String toString() {
   return "ViolationsToGitHubConfiguration [gitHubUrl=" + this.gitHubUrl + ", oAuth2Token=" + this.oAuth2Token
     + ", password=" + this.password + ", repositoryOwner=" + this.repositoryOwner + ", username=" + this.username
-    + ", usernamePasswordCredentialsId=" + this.usernamePasswordCredentialsId + "]";
+    + ", usernamePasswordCredentialsId=" + this.usernamePasswordCredentialsId + ", oAuth2TokenCredentialsId="
+    + this.oAuth2TokenCredentialsId + "]";
  }
 }

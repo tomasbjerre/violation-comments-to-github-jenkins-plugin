@@ -17,11 +17,13 @@ public class ViolationsToGitHubConfig implements Serializable {
  private boolean createSingleFileComments;
  private String gitHubUrl;
  private String oAuth2Token;
+ private String oAuth2TokenCredentialsId;
  private String password;
  private String pullRequestId;
  private String repositoryName;
  private String repositoryOwner;
  private boolean useOAuth2Token;
+ private boolean useOAuth2TokenCredentials;
  private String username;
  private String usernamePasswordCredentialsId;
  private boolean useUsernamePassword;
@@ -37,7 +39,7 @@ public class ViolationsToGitHubConfig implements Serializable {
    String repositoryName, String repositoryOwner, String password, String username, String oAuth2Token,
    String pullRequestId, String gitHubUrl, boolean commentOnlyChangedContent, List<ViolationConfig> violationConfigs,
    String usernamePasswordCredentialsId, boolean useOAuth2Token, boolean useUsernamePasswordCredentials,
-   boolean useUsernamePassword) {
+   boolean useUsernamePassword, String oAuth2TokenCredentialsId, boolean useOAuth2TokenCredentialsIdCredentials) {
   List<ViolationConfig> allViolationConfigs = includeAllReporters(violationConfigs);
 
   this.violationConfigs = allViolationConfigs;
@@ -55,6 +57,8 @@ public class ViolationsToGitHubConfig implements Serializable {
   this.useOAuth2Token = useOAuth2Token;
   this.useUsernamePasswordCredentials = useUsernamePasswordCredentials;
   this.useUsernamePassword = useUsernamePassword;
+  this.oAuth2TokenCredentialsId = oAuth2TokenCredentialsId;
+  this.useOAuth2TokenCredentials = useOAuth2TokenCredentialsIdCredentials;
  }
 
  public ViolationsToGitHubConfig(ViolationsToGitHubConfig rhs) {
@@ -73,6 +77,8 @@ public class ViolationsToGitHubConfig implements Serializable {
   this.useOAuth2Token = rhs.useOAuth2Token;
   this.useUsernamePasswordCredentials = rhs.useUsernamePasswordCredentials;
   this.useUsernamePassword = rhs.useUsernamePassword;
+  this.oAuth2TokenCredentialsId = rhs.oAuth2TokenCredentialsId;
+  this.useOAuth2TokenCredentials = rhs.useOAuth2TokenCredentials;
  }
 
  public void applyDefaults(ViolationsToGitHubConfiguration defaults) {
@@ -82,6 +88,10 @@ public class ViolationsToGitHubConfig implements Serializable {
 
   if (isNullOrEmpty(this.usernamePasswordCredentialsId)) {
    this.usernamePasswordCredentialsId = defaults.getUsernamePasswordCredentialsId();
+  }
+
+  if (isNullOrEmpty(this.oAuth2TokenCredentialsId)) {
+   this.oAuth2TokenCredentialsId = defaults.getoAuth2TokenCredentialsId();
   }
 
   if (isNullOrEmpty(this.username)) {
@@ -136,6 +146,13 @@ public class ViolationsToGitHubConfig implements Serializable {
   } else if (!this.oAuth2Token.equals(other.oAuth2Token)) {
    return false;
   }
+  if (this.oAuth2TokenCredentialsId == null) {
+   if (other.oAuth2TokenCredentialsId != null) {
+    return false;
+   }
+  } else if (!this.oAuth2TokenCredentialsId.equals(other.oAuth2TokenCredentialsId)) {
+   return false;
+  }
   if (this.password == null) {
    if (other.password != null) {
     return false;
@@ -164,13 +181,16 @@ public class ViolationsToGitHubConfig implements Serializable {
   } else if (!this.repositoryOwner.equals(other.repositoryOwner)) {
    return false;
   }
-  if (this.useUsernamePasswordCredentials != other.useUsernamePasswordCredentials) {
-   return false;
-  }
   if (this.useOAuth2Token != other.useOAuth2Token) {
    return false;
   }
+  if (this.useOAuth2TokenCredentials != other.useOAuth2TokenCredentials) {
+   return false;
+  }
   if (this.useUsernamePassword != other.useUsernamePassword) {
+   return false;
+  }
+  if (this.useUsernamePasswordCredentials != other.useUsernamePasswordCredentials) {
    return false;
   }
   if (this.username == null) {
@@ -213,8 +233,16 @@ public class ViolationsToGitHubConfig implements Serializable {
   return this.gitHubUrl;
  }
 
+ public String getoAuth2Token() {
+  return this.oAuth2Token;
+ }
+
  public String getOAuth2Token() {
   return this.oAuth2Token;
+ }
+
+ public String getoAuth2TokenCredentialsId() {
+  return this.oAuth2TokenCredentialsId;
  }
 
  public String getPassword() {
@@ -254,13 +282,15 @@ public class ViolationsToGitHubConfig implements Serializable {
   result = prime * result + (this.createSingleFileComments ? 1231 : 1237);
   result = prime * result + ((this.gitHubUrl == null) ? 0 : this.gitHubUrl.hashCode());
   result = prime * result + ((this.oAuth2Token == null) ? 0 : this.oAuth2Token.hashCode());
+  result = prime * result + ((this.oAuth2TokenCredentialsId == null) ? 0 : this.oAuth2TokenCredentialsId.hashCode());
   result = prime * result + ((this.password == null) ? 0 : this.password.hashCode());
   result = prime * result + ((this.pullRequestId == null) ? 0 : this.pullRequestId.hashCode());
   result = prime * result + ((this.repositoryName == null) ? 0 : this.repositoryName.hashCode());
   result = prime * result + ((this.repositoryOwner == null) ? 0 : this.repositoryOwner.hashCode());
-  result = prime * result + (this.useUsernamePasswordCredentials ? 1231 : 1237);
   result = prime * result + (this.useOAuth2Token ? 1231 : 1237);
+  result = prime * result + (this.useOAuth2TokenCredentials ? 1231 : 1237);
   result = prime * result + (this.useUsernamePassword ? 1231 : 1237);
+  result = prime * result + (this.useUsernamePasswordCredentials ? 1231 : 1237);
   result = prime * result + ((this.username == null) ? 0 : this.username.hashCode());
   result = prime * result
     + ((this.usernamePasswordCredentialsId == null) ? 0 : this.usernamePasswordCredentialsId.hashCode());
@@ -270,6 +300,10 @@ public class ViolationsToGitHubConfig implements Serializable {
 
  public boolean isUseOAuth2Token() {
   return this.useOAuth2Token;
+ }
+
+ public boolean isUseOAuth2TokenCredentials() {
+  return this.useOAuth2TokenCredentials;
  }
 
  public boolean isUseUsernamePassword() {
@@ -300,6 +334,10 @@ public class ViolationsToGitHubConfig implements Serializable {
   this.oAuth2Token = oAuth2Token;
  }
 
+ public void setoAuth2TokenCredentialsId(String oAuth2TokenCredentialsId) {
+  this.oAuth2TokenCredentialsId = oAuth2TokenCredentialsId;
+ }
+
  public void setPassword(String password) {
   this.password = password;
  }
@@ -318,6 +356,10 @@ public class ViolationsToGitHubConfig implements Serializable {
 
  public void setUseOAuth2Token(boolean useOAuth2Token) {
   this.useOAuth2Token = useOAuth2Token;
+ }
+
+ public void setUseOAuth2TokenCredentials(boolean useOAuth2TokenCredentials) {
+  this.useOAuth2TokenCredentials = useOAuth2TokenCredentials;
  }
 
  public void setUsername(String username) {
@@ -345,12 +387,13 @@ public class ViolationsToGitHubConfig implements Serializable {
   return "ViolationsToGitHubConfig [commentOnlyChangedContent=" + this.commentOnlyChangedContent
     + ", createCommentWithAllSingleFileComments=" + this.createCommentWithAllSingleFileComments
     + ", createSingleFileComments=" + this.createSingleFileComments + ", gitHubUrl=" + this.gitHubUrl
-    + ", oAuth2Token=" + this.oAuth2Token + ", password=" + this.password + ", pullRequestId=" + this.pullRequestId
-    + ", repositoryName=" + this.repositoryName + ", repositoryOwner=" + this.repositoryOwner
-    + ", useUsernamePasswordCredentialsId=" + this.useUsernamePasswordCredentials + ", useOAuth2Token="
-    + this.useOAuth2Token + ", username=" + this.username + ", usernamePasswordCredentialsId="
-    + this.usernamePasswordCredentialsId + ", useUsernamePassword=" + this.useUsernamePassword + ", violationConfigs="
-    + this.violationConfigs + "]";
+    + ", oAuth2Token=" + this.oAuth2Token + ", oAuth2TokenCredentialsId=" + this.oAuth2TokenCredentialsId
+    + ", password=" + this.password + ", pullRequestId=" + this.pullRequestId + ", repositoryName="
+    + this.repositoryName + ", repositoryOwner=" + this.repositoryOwner + ", useOAuth2Token=" + this.useOAuth2Token
+    + ", useOAuth2TokenCredentialsIdCredentials=" + this.useOAuth2TokenCredentials + ", username=" + this.username
+    + ", usernamePasswordCredentialsId=" + this.usernamePasswordCredentialsId + ", useUsernamePassword="
+    + this.useUsernamePassword + ", useUsernamePasswordCredentials=" + this.useUsernamePasswordCredentials
+    + ", violationConfigs=" + this.violationConfigs + "]";
  }
 
  private List<ViolationConfig> includeAllReporters(List<ViolationConfig> violationConfigs) {

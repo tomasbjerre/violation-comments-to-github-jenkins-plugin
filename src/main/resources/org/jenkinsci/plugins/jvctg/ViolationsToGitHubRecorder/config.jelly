@@ -27,7 +27,7 @@
     </table>
   </f:entry>
 
-  <f:optionalBlock checked="${config.useUsernamePasswordCredentials}" name="useUsernamePasswordCredentials" title="Use username / password credentials" inline="true">
+  <f:optionalBlock checked="${config.useUsernamePasswordCredentials}" name="useUsernamePasswordCredentials" title="Use username and password credentials" inline="true">
     <f:entry title="Username / Password Crendential" field="usernamePasswordCredentialsId">
       <c:select default="${config.usernamePasswordCredentialsId}" />
     </f:entry>
@@ -45,6 +45,15 @@
       <f:password name="password" value="${config.password}" />
     </f:entry>
     
+    <f:description>
+      Will default to global config.
+    </f:description>
+  </f:optionalBlock>
+
+  <f:optionalBlock checked="${config.useOAuth2TokenCredentials}" name="useOAuth2TokenCredentials" title="Use OAuth2 token credentials" inline="true">
+    <f:entry title="OAuth2 token Crendential" field="oAuth2TokenCredentialsId">
+      <c:select default="${config.oAuth2TokenCredentialsId}" />
+    </f:entry>
     <f:description>
       Will default to global config.
     </f:description>

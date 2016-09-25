@@ -7,7 +7,8 @@ import static com.google.common.base.Strings.isNullOrEmpty;
 import static com.google.common.base.Throwables.propagate;
 import static com.google.common.collect.Lists.newArrayList;
 import static java.util.logging.Level.SEVERE;
-import static org.jenkinsci.plugins.jvctg.config.CredentialsHelper.findCredentials;
+import static org.jenkinsci.plugins.jvctg.config.CredentialsHelper.findOAuth2TokenCredentials;
+import static org.jenkinsci.plugins.jvctg.config.CredentialsHelper.findUsernamePasswordCredentials;
 import static org.jenkinsci.plugins.jvctg.config.ViolationsToGitHubConfigHelper.FIELD_COMMENTONLYCHANGEDCONTENT;
 import static org.jenkinsci.plugins.jvctg.config.ViolationsToGitHubConfigHelper.FIELD_CREATECOMMENTWITHALLSINGLEFILECOMMENTS;
 import static org.jenkinsci.plugins.jvctg.config.ViolationsToGitHubConfigHelper.FIELD_CREATESINGLEFILECOMMENTS;
@@ -17,6 +18,7 @@ import static org.jenkinsci.plugins.jvctg.config.ViolationsToGitHubConfigHelper.
 import static org.jenkinsci.plugins.jvctg.config.ViolationsToGitHubConfigHelper.FIELD_PULLREQUESTID;
 import static org.jenkinsci.plugins.jvctg.config.ViolationsToGitHubConfigHelper.FIELD_REPOSITORYNAME;
 import static org.jenkinsci.plugins.jvctg.config.ViolationsToGitHubConfigHelper.FIELD_REPOSITORYOWNER;
+import static org.jenkinsci.plugins.jvctg.config.ViolationsToGitHubConfigHelper.FIELD_USEOAUTH2TOKENCREDENTIALS;
 import static org.jenkinsci.plugins.jvctg.config.ViolationsToGitHubConfigHelper.FIELD_USERNAME;
 import static org.jenkinsci.plugins.jvctg.config.ViolationsToGitHubConfigHelper.FIELD_USERNAMEPASSWORDCREDENTIALSID;
 import static se.bjurr.violations.comments.github.lib.ViolationCommentsToGitHubApi.violationCommentsToGitHubApi;
@@ -38,6 +40,7 @@ import java.util.logging.Logger;
 
 import org.jenkinsci.plugins.jvctg.config.ViolationConfig;
 import org.jenkinsci.plugins.jvctg.config.ViolationsToGitHubConfig;
+import org.jenkinsci.plugins.plaincredentials.StringCredentials;
 import org.jenkinsci.remoting.RoleChecker;
 
 import se.bjurr.violations.lib.model.Violation;
@@ -117,7 +120,8 @@ public class JvctgPerformer {
    listener.getLogger().println("---");
    logConfiguration(configExpanded, build, listener);
 
-   setCredentials(configExpanded, listener);
+   setUsernamePasswordCredentials(configExpanded, listener);
+   setOAuth2TokenCredentials(configExpanded, listener);
 
    listener.getLogger().println("Running Jenkins Violation Comments To GitHub");
    listener.getLogger().println("Will comment " + configExpanded.getPullRequestId());
@@ -157,6 +161,8 @@ public class JvctgPerformer {
     FIELD_USERNAMEPASSWORDCREDENTIALSID + ": " + !isNullOrEmpty(config.getUsernamePasswordCredentialsId()));
   listener.getLogger().println(FIELD_USERNAME + ": " + !isNullOrEmpty(config.getUsername()));
   listener.getLogger().println(FIELD_PASSWORD + ": " + !isNullOrEmpty(config.getPassword()));
+  listener.getLogger().println(
+    FIELD_USEOAUTH2TOKENCREDENTIALS + ": " + !isNullOrEmpty(config.getoAuth2TokenCredentialsId()));
   listener.getLogger().println(FIELD_OAUTH2TOKEN + ": " + !isNullOrEmpty(config.getOAuth2Token()));
 
   listener.getLogger().println(FIELD_CREATESINGLEFILECOMMENTS + ": " + config.getCreateSingleFileComments());
@@ -169,25 +175,23 @@ public class JvctgPerformer {
   }
  }
 
- private static void setCredentials(ViolationsToGitHubConfig configExpanded, TaskListener listener) {
-  if (configExpanded.isUseUsernamePasswordCredentials()) {
-   if (!isNullOrEmpty(configExpanded.getUsernamePasswordCredentialsId())) {
-    Optional<StandardUsernamePasswordCredentials> credentials = findCredentials(configExpanded
-      .getUsernamePasswordCredentialsId());
+ private static void setOAuth2TokenCredentials(ViolationsToGitHubConfig configExpanded, TaskListener listener) {
+  if (configExpanded.isUseOAuth2TokenCredentials()) {
+   String getoAuth2TokenCredentialsId = configExpanded.getoAuth2TokenCredentialsId();
+   if (!isNullOrEmpty(getoAuth2TokenCredentialsId)) {
+    Optional<StringCredentials> credentials = findOAuth2TokenCredentials(getoAuth2TokenCredentialsId);
     if (credentials.isPresent()) {
-     String username = checkNotNull(emptyToNull(credentials.get().getUsername()),
-       "Credentials username selected but not set!");
-     String password = checkNotNull(emptyToNull(credentials.get().getPassword().getPlainText()),
-       "Credentials password selected but not set!");
-     configExpanded.setUsername(username);
-     configExpanded.setPassword(password);
-     listener.getLogger().println("Using username and password from credentials");
+     StringCredentials stringCredential = checkNotNull(credentials.get(),
+       "Credentials OAuth2 token selected but not set!");
+     configExpanded.setoAuth2Token(stringCredential.getSecret().getPlainText());
+     configExpanded.setUseOAuth2Token(true);
+     listener.getLogger().println("Using OAuth2 token from credentials");
     } else {
-     listener.getLogger().println("Credentials not found!");
+     listener.getLogger().println("OAuth2 credentials not found!");
      return;
     }
    } else {
-    listener.getLogger().println("Credentials checked but not selected!");
+    listener.getLogger().println("OAuth2 credentials checked but not selected!");
     return;
    }
   }
@@ -203,6 +207,31 @@ public class JvctgPerformer {
   }
  }
 
+ private static void setUsernamePasswordCredentials(ViolationsToGitHubConfig configExpanded, TaskListener listener) {
+  if (configExpanded.isUseUsernamePasswordCredentials()) {
+   String usernamePasswordCredentialsId = configExpanded.getUsernamePasswordCredentialsId();
+   if (!isNullOrEmpty(usernamePasswordCredentialsId)) {
+    Optional<StandardUsernamePasswordCredentials> credentials = findUsernamePasswordCredentials(usernamePasswordCredentialsId);
+    if (credentials.isPresent()) {
+     String username = checkNotNull(emptyToNull(credentials.get().getUsername()),
+       "Credentials username selected but not set!");
+     String password = checkNotNull(emptyToNull(credentials.get().getPassword().getPlainText()),
+       "Credentials password selected but not set!");
+     configExpanded.setUsername(username);
+     configExpanded.setPassword(password);
+     configExpanded.setUseUsernamePassword(true);
+     listener.getLogger().println("Using username and password from credentials");
+    } else {
+     listener.getLogger().println("Username credentials not found!");
+     return;
+    }
+   } else {
+    listener.getLogger().println("Username credentials checked but not selected!");
+    return;
+   }
+  }
+ }
+
  /**
   * Makes sure any Jenkins variable, used in the configuration fields, are
   * evaluated.
@@ -211,19 +240,24 @@ public class JvctgPerformer {
  static ViolationsToGitHubConfig expand(ViolationsToGitHubConfig config, EnvVars environment) {
   ViolationsToGitHubConfig expanded = new ViolationsToGitHubConfig();
   expanded.setGitHubUrl(environment.expand(config.getGitHubUrl()));
-  expanded.setUsername(environment.expand(config.getUsername()));
-  expanded.setPassword(environment.expand(config.getPassword()));
-  expanded.setoAuth2Token(environment.expand(config.getOAuth2Token()));
   expanded.setPullRequestId(environment.expand(config.getPullRequestId()));
   expanded.setRepositoryName(environment.expand(config.getRepositoryName()));
   expanded.setRepositoryOwner(environment.expand(config.getRepositoryOwner()));
   expanded.setCreateCommentWithAllSingleFileComments(config.getCreateCommentWithAllSingleFileComments());
   expanded.setCreateSingleFileComments(config.getCreateSingleFileComments());
   expanded.setCommentOnlyChangedContent(config.getCommentOnlyChangedContent());
-  expanded.setUsernamePasswordCredentialsId(config.getUsernamePasswordCredentialsId());
+
   expanded.setUseUsernamePassword(config.isUseUsernamePassword());
-  expanded.setUseOAuth2Token(config.isUseOAuth2Token());
+  expanded.setUsername(environment.expand(config.getUsername()));
+  expanded.setPassword(environment.expand(config.getPassword()));
   expanded.setUseUsernamePasswordCredentials(config.isUseUsernamePasswordCredentials());
+  expanded.setUsernamePasswordCredentialsId(config.getUsernamePasswordCredentialsId());
+
+  expanded.setUseOAuth2Token(config.isUseOAuth2Token());
+  expanded.setoAuth2Token(environment.expand(config.getOAuth2Token()));
+  expanded.setUseOAuth2TokenCredentials(config.isUseOAuth2TokenCredentials());
+  expanded.setoAuth2TokenCredentialsId(config.getoAuth2TokenCredentialsId());
+
   for (ViolationConfig violationConfig : config.getViolationConfigs()) {
    ViolationConfig p = new ViolationConfig();
    p.setPattern(environment.expand(violationConfig.getPattern()));

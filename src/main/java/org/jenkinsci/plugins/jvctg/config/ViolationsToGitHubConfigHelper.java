@@ -12,6 +12,7 @@ public class ViolationsToGitHubConfigHelper {
  public static final String FIELD_CREATESINGLEFILECOMMENTS = "createSingleFileComments";
  public static final String FIELD_GITHUBURL = "gitHubUrl";
  public static final String FIELD_OAUTH2TOKEN = "oAuth2Token";
+ public static final String FIELD_OAUTH2TOKENCREDENTIALSID = "oAuth2TokenCredentialsId";
  public static final String FIELD_PASSWORD = "password";
  public static final String FIELD_PATTERN = "pattern";
  public static final String FIELD_PULLREQUESTID = "pullRequestId";
@@ -19,6 +20,7 @@ public class ViolationsToGitHubConfigHelper {
  public static final String FIELD_REPOSITORYNAME = "repositoryName";
  public static final String FIELD_REPOSITORYOWNER = "repositoryOwner";
  public static final String FIELD_USEOAUTH2TOKEN = "useOAuth2Token";
+ public static final String FIELD_USEOAUTH2TOKENCREDENTIALS = "useOAuth2TokenCredentials";
  public static final String FIELD_USERNAME = "username";
  public static final String FIELD_USERNAMEPASSWORDCREDENTIALSID = "usernamePasswordCredentialsId";
  public static final String FIELD_USEUSERNAMEPASSWORD = "useUsernamePassword";

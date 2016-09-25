@@ -5,12 +5,14 @@ import static org.jenkinsci.plugins.jvctg.config.ViolationsToGitHubConfigHelper.
 import static org.jenkinsci.plugins.jvctg.config.ViolationsToGitHubConfigHelper.FIELD_CREATESINGLEFILECOMMENTS;
 import static org.jenkinsci.plugins.jvctg.config.ViolationsToGitHubConfigHelper.FIELD_GITHUBURL;
 import static org.jenkinsci.plugins.jvctg.config.ViolationsToGitHubConfigHelper.FIELD_OAUTH2TOKEN;
+import static org.jenkinsci.plugins.jvctg.config.ViolationsToGitHubConfigHelper.FIELD_OAUTH2TOKENCREDENTIALSID;
 import static org.jenkinsci.plugins.jvctg.config.ViolationsToGitHubConfigHelper.FIELD_PASSWORD;
 import static org.jenkinsci.plugins.jvctg.config.ViolationsToGitHubConfigHelper.FIELD_PATTERN;
 import static org.jenkinsci.plugins.jvctg.config.ViolationsToGitHubConfigHelper.FIELD_PULLREQUESTID;
 import static org.jenkinsci.plugins.jvctg.config.ViolationsToGitHubConfigHelper.FIELD_REPOSITORYNAME;
 import static org.jenkinsci.plugins.jvctg.config.ViolationsToGitHubConfigHelper.FIELD_REPOSITORYOWNER;
 import static org.jenkinsci.plugins.jvctg.config.ViolationsToGitHubConfigHelper.FIELD_USEOAUTH2TOKEN;
+import static org.jenkinsci.plugins.jvctg.config.ViolationsToGitHubConfigHelper.FIELD_USEOAUTH2TOKENCREDENTIALS;
 import static org.jenkinsci.plugins.jvctg.config.ViolationsToGitHubConfigHelper.FIELD_USERNAME;
 import static org.jenkinsci.plugins.jvctg.config.ViolationsToGitHubConfigHelper.FIELD_USERNAMEPASSWORDCREDENTIALSID;
 import static org.jenkinsci.plugins.jvctg.config.ViolationsToGitHubConfigHelper.FIELD_USEUSERNAMEPASSWORD;
@@ -38,6 +40,10 @@ public final class ViolationsToGitHubDescriptor extends BuildStepDescriptor<Publ
   if (this.config == null || this.config.getViolationConfigs().size() != createNewConfig().getViolationConfigs().size()) {
    this.config = createNewConfig();
   }
+ }
+
+ public ListBoxModel doFillOAuth2TokenCredentialsIdItems() {
+  return CredentialsHelper.doFillOAuth2TokenCredentialsIdItems();
  }
 
  public ListBoxModel doFillUsernamePasswordCredentialsIdItems() {
@@ -81,6 +87,8 @@ public final class ViolationsToGitHubDescriptor extends BuildStepDescriptor<Publ
 
   config.setUseOAuth2Token(formData.getBoolean(FIELD_USEOAUTH2TOKEN));
   config.setoAuth2Token(formData.getString(FIELD_OAUTH2TOKEN));
+  config.setUseOAuth2TokenCredentials(formData.getBoolean(FIELD_USEOAUTH2TOKENCREDENTIALS));
+  config.setoAuth2TokenCredentialsId(formData.getString(FIELD_OAUTH2TOKENCREDENTIALSID));
 
   config.setUseUsernamePasswordCredentials(formData.getBoolean(FIELD_USEUSERNAMEPASSWORDCREDENTIALS));
   config.setUsernamePasswordCredentialsId(formData.getString(FIELD_USERNAMEPASSWORDCREDENTIALSID));

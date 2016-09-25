@@ -158,6 +158,11 @@ Changelog of Violation Comments to GitHub plugin for Jenkins.
 			<version>2.1.4</version>
 		</dependency>
 		<dependency>
+			<groupId>org.jenkins-ci.plugins</groupId>
+			<artifactId>plain-credentials</artifactId>
+			<version>1.2</version>
+		</dependency>
+		<dependency>
 			<groupId>se.bjurr.violations</groupId>
 			<artifactId>violation-comments-to-github-lib</artifactId>
 			<version>1.9</version>
